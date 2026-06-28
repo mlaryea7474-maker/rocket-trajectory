@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Trajectory — Paper Visualizer | Abba 2018</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#dc143c;
+  --black:#000;
+  --white:#fff;
+  --gray:#f5f5f5;
+  --gray2:#e8e8e8;
+  --muted:#666;
+  --faint:#999;
+  --font-h:'Oswald',sans-serif;
+  --font-b:'Inter',sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--white);color:var(--black);line-height:1.65;-webkit-font-smoothing:antialiased}
+
+/* ── SCROLLBAR ── */
+*{scrollbar-width:thin;scrollbar-color:#000 #e0e0e0}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:#000}
+
+/* ── HERO ── */
+.hero{
+  background:#000;
+  color:#fff;
+  padding:5rem 2rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(220,20,60,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(220,20,60,0.06) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.hero-inner{max-width:900px;margin:0 auto;position:relative}
+.hero-tag{
+  font-family:var(--font-m);font-size:.65rem;color:var(--red);
+  letter-spacing:.25em;margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:var(--font-h);font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;letter-spacing:.04em;line-height:1.1;
+  margin-bottom:1rem;
+}
+.hero h1 span{color:var(--red)}
+.hero-meta{
+  font-family:var(--font-m);font-size:.78rem;
+  color:rgba(255,255,255,.5);letter-spacing:.06em;margin-bottom:2rem;
+}
+.hero-abstract{
+  font-size:1rem;color:rgba(255,255,255,.75);line-height:1.8;
+  max-width:700px;border-left:2px solid var(--red);padding-left:1.25rem;
+}
+.hero-nav{
+  display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.5rem;
+}
+.hn-btn{
+  font-family:var(--font-m);font-size:.62rem;color:#fff;
+  border:1px solid rgba(220,20,60,.4);padding:.35rem .85rem;
+  text-decoration:none;letter-spacing:.1em;
+  transition:background .2s,border-color .2s;
+}
+.hn-btn:hover{background:var(--red);border-color:var(--red)}
+
+/* ── LAYOUT ── */
+.section{padding:4rem 2rem}
+.section.gray{background:var(--gray)}
+.inner{max-width:900px;margin:0 auto}
+
+/* ── SECTION HEADER ── */
+.sec-label{
+  font-family:var(--font-m);font-size:.6rem;color:var(--red);
+  letter-spacing:.2em;margin-bottom:.6rem;display:block;
+}
+.sec-h2{
+  font-family:var(--font-h);font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:700;letter-spacing:.04em;margin-bottom:1rem;
+}
+.sec-h2 .br{color:var(--red);font-weight:400}
+.sec-lead{
+  font-size:1rem;color:#333;line-height:1.8;margin-bottom:2rem;
+  max-width:750px;
+}
+.divider{height:2px;background:var(--black);margin:3rem 0;opacity:.08}
+
+/* ── CONCEPT CARDS ── */
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.concept-card{
+  background:#fff;border:1.5px solid #000;padding:1.25rem 1.25rem 1rem;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  transition:box-shadow .2s;
+}
+.concept-card:hover{box-shadow:3px 3px 0 #000}
+.cc-icon{font-size:1.4rem;margin-bottom:.6rem}
+.cc-title{font-family:var(--font-h);font-size:.95rem;font-weight:600;margin-bottom:.4rem;letter-spacing:.04em}
+.cc-text{font-size:.85rem;color:#444;line-height:1.6}
+
+/* ── EQUATION BLOCKS ── */
+.eq-block{
+  background:#000;color:#fff;
+  padding:1.5rem 2rem;margin:1.5rem 0;
+  border-left:3px solid var(--red);
+  position:relative;
+}
+.eq-label{
+  font-family:var(--font-m);font-size:.58rem;color:var(--red);
+  letter-spacing:.2em;display:block;margin-bottom:.75rem;
+}
+.eq-line{
+  font-family:var(--font-m);font-size:1rem;color:#fff;
+  display:block;margin-bottom:.45rem;line-height:1.5;
+}
+.eq-line:last-child{margin-bottom:0}
+.eq-line .hl{color:var(--red)}
+.eq-comment{
+  font-family:var(--font-m);font-size:.72rem;
+  color:rgba(255,255,255,.4);margin-left:1.5rem;
+}
+.eq-note{
+  font-size:.82rem;color:rgba(255,255,255,.6);
+  margin-top:.75rem;font-style:italic;line-height:1.6;
+}
+
+/* ── STEP CARDS (algorithm) ── */
+.steps{display:flex;flex-direction:column;gap:.75rem;margin:1.5rem 0}
+.step{display:flex;gap:1rem;align-items:flex-start}
+.step-num{
+  width:32px;height:32px;border:1.5px solid #000;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-m);font-size:.75rem;font-weight:600;
+  flex-shrink:0;margin-top:.1rem;
+}
+.step-body{flex:1}
+.step-title{font-weight:600;font-size:.92rem;margin-bottom:.2rem}
+.step-desc{font-size:.85rem;color:#444;line-height:1.6}
+.step-code{
+  font-family:var(--font-m);font-size:.78rem;
+  background:#000;color:#fff;display:block;
+  padding:.5rem .85rem;margin-top:.5rem;
+  border-left:2px solid var(--red);
+}
+
+/* ── CHARTS ── */
+.chart-wrap{
+  background:#fff;border:1.5px solid #000;padding:1.5rem;
+  margin:1.5rem 0;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+}
+.chart-title{
+  font-family:var(--font-h);font-size:1rem;font-weight:600;
+  letter-spacing:.04em;margin-bottom:.3rem;
+}
+.chart-sub{
+  font-family:var(--font-m);font-size:.62rem;color:var(--muted);
+  letter-spacing:.08em;margin-bottom:1.25rem;
+}
+.chart-caption{
+  font-family:var(--font-m);font-size:.68rem;color:var(--muted);
+  margin-top:1rem;letter-spacing:.04em;border-top:1px solid #eee;
+  padding-top:.75rem;
+}
+.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.chart-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:700px){.chart-grid-2,.chart-grid-3{grid-template-columns:1fr}}
+
+/* ── INSIGHT BOX ── */
+.insight{
+  background:#000;color:#fff;padding:1.25rem 1.5rem;margin:1.5rem 0;
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.insight-icon{font-size:1.4rem;flex-shrink:0;line-height:1.2}
+.insight-title{font-family:var(--font-h);font-size:.95rem;font-weight:600;color:var(--red);margin-bottom:.3rem;letter-spacing:.04em}
+.insight-text{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.7}
+
+/* ── TABLE ── */
+.data-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+.data-table th{
+  background:#000;color:#fff;font-family:var(--font-m);
+  font-size:.62rem;letter-spacing:.12em;padding:.6rem 1rem;text-align:left;
+}
+.data-table td{padding:.55rem 1rem;border-bottom:1px solid #eee;color:#333}
+.data-table td:first-child{font-family:var(--font-m);font-size:.82rem;color:var(--red);font-weight:600}
+.data-table td:last-child{font-family:var(--font-m);font-size:.82rem;color:#000}
+.data-table tr.highlight td{background:rgba(220,20,60,.06);font-weight:600}
+.data-table tr:hover td{background:#f8f8f8}
+
+/* ── ASSUMPTIONS LIST ── */
+.assume-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin:1rem 0}
+.assume-list li{display:flex;gap:.75rem;font-size:.9rem;color:#333;align-items:flex-start}
+.assume-list li::before{
+  content:'✓';color:var(--red);font-weight:700;flex-shrink:0;margin-top:.05rem;
+}
+.assume-list li.no::before{content:'✗';color:#aaa}
+
+/* ── FOOTER ── */
+.footer{background:#000;color:rgba(255,255,255,.5);padding:2.5rem 2rem;font-family:var(--font-m);font-size:.68rem;letter-spacing:.06em}
+.footer-inner{max-width:900px;margin:0 auto}
+.footer h3{color:var(--red);margin-bottom:1rem;font-family:var(--font-h);font-size:.85rem;letter-spacing:.1em}
+.ref-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.ref-list li{line-height:1.6;color:rgba(255,255,255,.45)}
+.ref-num{color:var(--red);margin-right:.5rem}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">MATLAB WORKSHOP · CARLETON COLLEGE · OCT 2018</div>
+    <h1>Modeling Rocket<br><span>Flight Trajectory</span></h1>
+    <div class="hero-meta">Sani Abba · Abubakar Tafawa Balewa University, Bauchi, Nigeria · saniabba2004@gmail.com</div>
+    <p class="hero-abstract">
+      A classroom computational activity that builds two models of rocket flight:
+      a simple parabolic projectile (closed-form, no drag) and a real Saturn V
+      launch simulation using Newton's second law and Euler's numerical method.
+      Initial velocity v₀ = 20 m/s. All trajectories computed and plotted via MATLAB.
+    </p>
+    <nav class="hero-nav">
+      <a class="hn-btn" href="#setup">THE PROBLEM</a>
+      <a class="hn-btn" href="#parabolic">PARABOLIC MODEL</a>
+      <a class="hn-btn" href="#fig3">FIGURE 3</a>
+      <a class="hn-btn" href="#fig4">FIGURE 4</a>
+      <a class="hn-btn" href="#saturnv">SATURN V ODE</a>
+      <a class="hn-btn" href="#euler">EULER METHOD</a>
+      <a class="hn-btn" href="#fig5">FIGURE 5</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ═══ SECTION 1 — PROBLEM SETUP ═══ -->
+<section class="section" id="setup">
+  <div class="inner">
+    <span class="sec-label">SECTION 1 · THE PROBLEM</span>
+    <h2 class="sec-h2"><span class="br">[</span> What Are We Solving? <span class="br">]</span></h2>
+    <p class="sec-lead">
+      A rocket missile is launched from the ground at <strong>v₀ = 20 m/s</strong> at an angle θ above the horizontal.
+      We want to know: how far does it travel before hitting the ground? And which angle θ gives the <em>maximum range</em>?
+      Then — using the Saturn V as a real example — how does a rocket actually behave when thrust, drag, and changing mass are included?
+    </p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="cc-icon">📐</div>
+        <div class="cc-title">TWO MODELS</div>
+        <div class="cc-text">Model 1 is a clean parabola (no air, no thrust). Model 2 is the real Saturn V: variable mass, real thrust, atmospheric drag.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🎯</div>
+        <div class="cc-title">THREE OUTPUTS</div>
+        <div class="cc-text">Fig 3: trajectory fan (all angles). Fig 4: range vs angle table. Fig 5: Saturn V height, velocity and acceleration vs time.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">⚙️</div>
+        <div class="cc-title">THE TOOL</div>
+        <div class="cc-text">MATLAB's for-loop stepping through time, computing positions analytically (Part 1) or numerically via Euler's method (Part 2).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 2 — PARABOLIC MODEL ═══ -->
+<section class="section gray" id="parabolic">
+  <div class="inner">
+    <span class="sec-label">SECTION 2 · PART 1</span>
+    <h2 class="sec-h2"><span class="br">[</span> The Parabolic Projectile Model <span class="br">]</span></h2>
+    <p class="sec-lead">
+      Start simple. Ignore drag and thrust entirely — the only force is gravity pulling straight down.
+      This gives us a problem we can solve with pure algebra.
+    </p>
+
+    <p style="font-size:.95rem;color:#333;line-height:1.8;margin-bottom:1.5rem">
+      <strong>The physics intuition:</strong> In the horizontal direction, nothing pushes or pulls the rocket — so it moves at constant speed forever.
+      In the vertical direction, gravity decelerates it, stops it, then pulls it back down.
+      That combination of "constant horizontal" + "gravity-curved vertical" is exactly what produces a <strong>parabola</strong>.
+    </p>
+
+    <ul class="assume-list">
+      <li>Atmospheric air has no effect (no drag)</li>
+      <li>No thrust after launch (purely ballistic)</li>
+      <li>Launched from ground level: x₀ = 0, y₀ = 0</li>
+      <li>Earth's curvature is ignored</li>
+      <li class="no">Mass variation (fuel burn) — NOT modelled here</li>
+      <li class="no">Variable gravity with altitude — NOT modelled here</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <h3 style="font-family:var(--font-h);font-size:1.1rem;letter-spacing:.04em;margin-bottom:1rem">THE GOVERNING EQUATIONS</h3>
+
+    <div class="eq-block">
+      <span class="eq-label">VELOCITY COMPONENTS (Eq. 3 & 4)</span>
+      <span class="eq-line">v<sub style="font-size:.75em">x₀</sub> = v₀ · <span class="hl">cos(θ)</span>  <span class="eq-comment">← horizontal velocity (constant, no force acts)</span></span>
+      <span class="eq-line">v<sub style="font-size:.75em">y₀</sub> = v₀ · <span class="hl">sin(θ)</span>  <span class="eq-comment">← initial vertical velocity</span></span>
+      <div class="eq-note">θ is the launch angle above the horizontal. v₀ = 20 m/s.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">POSITION AS A FUNCTION OF TIME (Eq. 1 & 2)</span>
+      <span class="eq-line">y(t) = v<sub style="font-size:.75em">y₀</sub>·t  <span class="hl">−  ½ · g · t²</span>   <span class="eq-comment">← height: rises then falls (g = 9.81 m/s²)</span></span>
+      <span class="eq-line">x(t) = v<sub style="font-size:.75em">x₀</sub>·t               <span class="eq-comment">← horizontal distance: linear in time</span></span>
+      <div class="eq-note">The ½gt² term is what makes this a parabola. At t=0 both are zero (ground level launch).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">TIME OF FLIGHT (Eq. 5 & 6)</span>
+      <span class="eq-line">Set y(t) = 0  →  <span class="hl">t₂ = −2·v<sub style="font-size:.75em">y₀</sub> / g</span>   <span class="eq-comment">← when does it hit the ground?</span></span>
+      <span class="eq-line">With v₀=20, θ=45°:  t₂ = 2·(20·sin45°)/9.81  ≈  <span class="hl">2.887 s</span></span>
+      <div class="eq-note">Factoring out t: 0 = t·(v_y₀ − ½gt), so t=0 (launch) or t₂ = −2v_y₀/g (landing).</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">RANGE FORMULA + MAXIMUM RANGE CONDITION</span>
+      <span class="eq-line">Range = x(t₂) = v<sub style="font-size:.75em">x₀</sub> · t₂ = v₀·cos(θ) · (2·v₀·sin(θ)/g)</span>
+      <span class="eq-line">      = <span class="hl">v₀² · sin(2θ) / g</span></span>
+      <span class="eq-line">Maximum when sin(2θ) = 1  →  2θ = 90°  →  <span class="hl">θ = 45°</span></span>
+      <span class="eq-line">Max range = 20² / 9.81 = <span class="hl">40.7747 m</span>   ← matches MATLAB output exactly</span>
+    </div>
+
+    <div class="insight">
+      <div class="insight-icon">💡</div>
+      <div>
+        <div class="insight-title">WHY 45° IS THE MAGIC ANGLE</div>
+        <div class="insight-text">
+          Range = v₀²·sin(2θ)/g. The only thing that varies with angle is sin(2θ).
+          sin is maximized at 90°, so 2θ=90° → θ=45°. At this angle, horizontal and vertical components are perfectly balanced:
+          equal time in the air AND equal horizontal speed. Any other angle sacrifices one for the other.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 3 — FIGURE 3 ═══ -->
+<section class="section" id="fig3">
+  <div class="inner">
+    <span class="sec-label">FIGURE 3 · TRAJECTORY FAN</span>
+    <h2 class="sec-h2"><span class="br">[</span> Rocket Trajectories — All Angles <span class="br">]</span></h2>
+    <p class="sec-lead">
+      The MATLAB program plots trajectories for angles from 5° to 85° in steps of 10°.
+      The maximum-range trajectory at 45° is plotted in <strong style="color:var(--red)">red with a thicker line</strong>.
+      v₀ = 20 m/s, g = 9.81 m/s².
+    </p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Trajectory of Rocket vs Initial Angle θ</div>
+      <div class="chart-sub">ANGLES: 5° 15° 25° 35° 45° 55° 65° 75° 85° · v₀ = 20 m/s · g = 9.81 m/s²</div>
+      <canvas id="fig3chart" height="340"></canvas>
+      <div class="chart-caption">
+        Fig. 3 — MATLAB Plot of the Rocket Trajectories. Each curve = one launch angle. Red bold line = 45° (maximum range = 40.77 m).
+        Note the symmetry: 30° and 60° reach the same range (sin(60°) = sin(120°) as 2θ).
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-icon">🔍</div>
+      <div>
+        <div class="insight-title">READING THE TRAJECTORY FAN</div>
+        <div class="insight-text">
+          Shallow angles (5°–20°): low arc, short range — not enough vertical to stay in the air.
+          Steep angles (70°–85°): tall arc, but lands near the launch point — too much time going up/down, not forward.
+          45° is the sweet spot. Notice how 30° and 60° land at the same x-distance — they are complementary angles (30+60=90), sharing the same sin(2θ) value.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 4 — FIGURE 4 ═══ -->
+<section class="section gray" id="fig4">
+  <div class="inner">
+    <span class="sec-label">FIGURE 4 · RANGE vs ANGLE</span>
+    <h2 class="sec-h2"><span class="br">[</span> Numerical Range Computation <span class="br">]</span></h2>
+    <p class="sec-lead">
+      The MATLAB program computes range for every integer angle from 0° to 90°.
+      The values below match the MATLAB Command Window output shown in Fig. 4 of the paper.
+      Max range = <strong>40.7747 m at θ = 45°</strong>.
+    </p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Range vs Launch Angle θ</div>
+      <div class="chart-sub">COMPUTED FOR θ = 0° TO 90° IN 1° STEPS · Peak highlighted in red</div>
+      <canvas id="fig4chart" height="280"></canvas>
+      <div class="chart-caption">
+        Fig. 4 — Range versus angle. The symmetric bell-curve shape peaks at 45°.
+        Range = v₀²·sin(2θ)/g. The symmetry around 45° comes from sin(2θ) = sin(180°−2θ), i.e., sin(2·30°) = sin(2·60°).
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+      <div>
+        <h3 style="font-family:var(--font-h);font-size:.9rem;letter-spacing:.08em;margin-bottom:.75rem">SELECTED RESULTS (matching paper)</h3>
+        <table class="data-table">
+          <thead><tr><th>θ (deg)</th><th>Range (m)</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>0°</td><td>0.0000</td><td>Horizontal — never rises</td></tr>
+            <tr><td>15°</td><td>20.3874</td><td></td></tr>
+            <tr><td>30°</td><td>35.3119</td><td>Same as 60°</td></tr>
+            <tr class="highlight"><td>45°</td><td>40.7747</td><td>MAXIMUM RANGE</td></tr>
+            <tr><td>60°</td><td>35.3119</td><td>Same as 30°</td></tr>
+            <tr><td>75°</td><td>20.3874</td><td>Same as 15°</td></tr>
+            <tr><td>90°</td><td>0.0000</td><td>Straight up — no range</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-h);font-size:.9rem;letter-spacing:.08em;margin-bottom:.75rem">KEY INSIGHT: COMPLEMENTARY ANGLES</h3>
+        <p style="font-size:.88rem;color:#444;line-height:1.7;margin-bottom:.75rem">
+          Angles that sum to 90° always give the same range. This is because:
+        </p>
+        <div class="eq-block" style="margin:0">
+          <span class="eq-label">PROOF</span>
+          <span class="eq-line">Range(θ) = v₀²·<span class="hl">sin(2θ)</span>/g</span>
+          <span class="eq-line">Range(90°−θ) = v₀²·sin(2(90°−θ))/g</span>
+          <span class="eq-line">            = v₀²·sin(180°−2θ)/g</span>
+          <span class="eq-line">            = v₀²·<span class="hl">sin(2θ)</span>/g  ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 5 — SATURN V ═══ -->
+<section class="section" id="saturnv">
+  <div class="inner">
+    <span class="sec-label">SECTION 3 · PART 2 — REAL-LIFE APPLICATION</span>
+    <h2 class="sec-h2"><span class="br">[</span> The Saturn V Rocket — ODE Model <span class="br">]</span></h2>
+    <p class="sec-lead">
+      The parabola model is too simple for a real rocket. The Saturn V (Apollo 11) has:
+      burning fuel that changes its mass every second, enormous thrust for 150 seconds, and air drag that slows it down.
+      None of these can be represented by a simple formula — we need <strong>differential equations</strong>.
+    </p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="cc-icon">🚀</div>
+        <div class="cc-title">VARIABLE MASS</div>
+        <div class="cc-text">Saturn V starts at 2,900,000 kg. Fuel: 2,150,000 kg. After 150 s of burn, only 750,000 kg of structure remains.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🔥</div>
+        <div class="cc-title">CONSTANT THRUST</div>
+        <div class="cc-text">Five F-1 engines produce F = 34,000,000 N for exactly 150 seconds, then cut off.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">💨</div>
+        <div class="cc-title">ATMOSPHERIC DRAG</div>
+        <div class="cc-text">Drag D = Cd · 0.6, where Cd = 0.6 (constant simplified model). Paper notes drag could be altitude-dependent.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-family:var(--font-h);font-size:1.1rem;letter-spacing:.04em;margin-bottom:1rem">THE FORCE BALANCE — NEWTON'S SECOND LAW</h3>
+
+    <p style="font-size:.93rem;color:#333;line-height:1.8;margin-bottom:1rem">
+      For a rocket flying straight up, three forces act on it simultaneously:
+      <strong>Thrust</strong> (up), <strong>Weight</strong> (down), <strong>Drag</strong> (down, opposing motion).
+      Newton's 2nd law F=ma becomes:
+    </p>
+
+    <div class="eq-block">
+      <span class="eq-label">FORCE BALANCE (Eq. 10 & 12)</span>
+      <span class="eq-line">Simple constant-mass case:</span>
+      <span class="eq-line">  M·a = <span class="hl">F</span>  −  M·g</span>
+      <span class="eq-line" style="margin-top:.75rem">Full variable model:</span>
+      <span class="eq-line">  M(t)·a(t) = <span class="hl">F(t)</span>  −  D(t,v,h)  −  M(t)·g   <span class="eq-comment">← Eq. 12</span></span>
+      <div class="eq-note">F(t) = 34×10⁶ N when 0 &lt; t &lt; 150 s, else 0. D is drag. M(t) is decreasing mass.</div>
+    </div>
+
+    <div class="eq-block">
+      <span class="eq-label">INSTANTANEOUS ACCELERATION (Eq. 13)</span>
+      <span class="eq-line">a(t) = <span class="hl">[ F(t) − D(t,v,h) − M(t)·g ]  /  M(t)</span></span>
+      <span class="eq-line" style="margin-top:.5rem">During burn (0 &lt; t &lt; 150s), paper uses M = 0.75×10⁶ kg, F = 34×10⁶ N:</span>
+      <span class="eq-line">a = (34×10⁶ − 0.36 − 0.75×10⁶ · 9.81) / 0.75×10⁶  ≈  <span class="hl">35.52 m/s²</span></span>
+      <div class="eq-note">No closed-form solution: a, v, h are all coupled and changing every timestep. Must solve numerically.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 style="font-family:var(--font-h);font-size:1.1rem;letter-spacing:.04em;margin-bottom:1rem" id="euler">EULER'S METHOD — THE NUMERICAL SOLUTION</h3>
+
+    <p style="font-size:.93rem;color:#333;line-height:1.8;margin-bottom:1rem">
+      The key idea: if you know where you are, how fast you're going, and your acceleration RIGHT NOW,
+      you can predict where you'll be a tiny time step Δt later. Repeat thousands of times = full trajectory.
+    </p>
+
+    <div class="eq-block">
+      <span class="eq-label">FORWARD DIFFERENCING — THE EULER STEP (Eq. 7, 8, 9)</span>
+      <span class="eq-line">aₖ = dv/dt  ≈  (v<sub style="font-size:.75em">k+1</sub> − vₖ) / Δt   <span class="eq-comment">← rearrange to find next v</span></span>
+      <span class="eq-line" style="margin-top:.5rem"><span class="hl">v<sub style="font-size:.75em">k+1</sub></span>  =  vₖ  +  Δt · aₖ        <span class="eq-comment">← new velocity (Eq. 8)</span></span>
+      <span class="eq-line"><span class="hl">h<sub style="font-size:.75em">k+1</sub></span>  =  hₖ  +  Δt · vₖ        <span class="eq-comment">← new height   (Eq. 9)</span></span>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Set initial conditions</div>
+          <div class="step-desc">Rocket starts at ground level, at rest. v=0, h=0, t=0.</div>
+          <code class="step-code">v = 0;  h = 0;  tstart = 0;  dt = 0.1;  tstop = 300;</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">At each timestep: compute acceleration</div>
+          <div class="step-desc">Get current F(t), M(t), D(t,h,v). Apply Newton's 2nd law → a.</div>
+          <code class="step-code">a = GetAcceleration(t, h, v);  // a = (F - D - M*g) / M</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Update height and velocity</div>
+          <div class="step-desc">Height is updated FIRST (using current velocity), then velocity is updated using current acceleration.</div>
+          <code class="step-code">h = h + dt * v;   // update height first
+v = v + dt * a;   // then update velocity</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Store values, repeat for all t up to 300 s</div>
+          <div class="step-desc">Capture A(k), V(k), H(k), T(k) into vectors for plotting. Step forward: t += 0.1.</div>
+          <code class="step-code">T[k]=t; H[k]=h; V[k]=v; A[k]=a;  k++;</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-icon">⚡</div>
+      <div>
+        <div class="insight-title">WHY DOES VELOCITY START SLIGHTLY NEGATIVE?</div>
+        <div class="insight-text">
+          In the paper's model, thrust only activates for t &gt; 0. At exactly t=0, F=0, so the only force is gravity pulling the rocket down.
+          For one tiny step (0.1 s), gravity decelerates it: v = 0 + 0.1×(−9.81) = −0.981 m/s.
+          Then at t=0.1 s, thrust kicks in at full 34MN and immediately overpowers gravity (a ≈ +35.5 m/s²).
+          This explains the brief negative dip visible in Fig. 5's velocity graph.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <h3 style="font-family:var(--font-h);font-size:.9rem;letter-spacing:.08em;margin-bottom:.75rem">SATURN V PARAMETERS (from paper)</h3>
+      <table class="data-table">
+        <thead><tr><th>Parameter</th><th>Value</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>M₀</td><td>2,900,000 kg</td><td>Total initial mass (rocket + fuel + payload)</td></tr>
+          <tr><td>M_fuel</td><td>2,150,000 kg</td><td>Propellant mass consumed during burn</td></tr>
+          <tr><td>M_dry</td><td>750,000 kg</td><td>Structural mass remaining after burn</td></tr>
+          <tr><td>F</td><td>34,000,000 N</td><td>Thrust (five F-1 engines, 0 &lt; t &lt; 150 s)</td></tr>
+          <tr><td>t_burn</td><td>150 s</td><td>Burn time — all fuel consumed</td></tr>
+          <tr><td>Cd</td><td>0.6</td><td>Drag coefficient (constant model)</td></tr>
+          <tr><td>Δt</td><td>0.1 s</td><td>Euler timestep</td></tr>
+          <tr><td>t_stop</td><td>300 s</td><td>Simulation end time</td></tr>
+          <tr><td>g</td><td>9.81 m/s²</td><td>Gravitational acceleration (constant — simplified)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 6 — FIGURE 5 ═══ -->
+<section class="section gray" id="fig5">
+  <div class="inner">
+    <span class="sec-label">FIGURE 5 · SATURN V SIMULATION OUTPUT</span>
+    <h2 class="sec-h2"><span class="br">[</span> Height · Velocity · Acceleration <span class="br">]</span></h2>
+    <p class="sec-lead">
+      The Euler integration runs from t=0 to t=300 s with Δt=0.1 s (3,000 steps).
+      Three quantities are captured at each step and plotted. This exactly replicates the paper's Fig. 5 output.
+    </p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Height h(t)</div>
+      <div class="chart-sub">ALTITUDE IN METRES vs TIME IN SECONDS</div>
+      <canvas id="fig5h" height="220"></canvas>
+      <div class="chart-caption">
+        Height increases monotonically during burn (0–150 s), reaching ~400 km. After burn, rocket continues upward but decelerating under gravity. At t≈300 s it is still climbing but much more slowly.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem">
+      <div class="chart-wrap" style="margin:0">
+        <div class="chart-title">Velocity v(t)</div>
+        <div class="chart-sub">m/s vs SECONDS</div>
+        <canvas id="fig5v" height="220"></canvas>
+        <div class="chart-caption">Brief negative dip at t=0 (gravity, no thrust yet), then rapid increase to ~5,300 m/s at burnout. After t=150s: decelerates under gravity.</div>
+      </div>
+      <div class="chart-wrap" style="margin:0">
+        <div class="chart-title">Acceleration a(t)</div>
+        <div class="chart-sub">m/s² vs SECONDS</div>
+        <canvas id="fig5a" height="220"></canvas>
+        <div class="chart-caption">Flat at ~35.5 m/s² during burn (constant F, constant M in simplified model). Drops sharply to −9.81 m/s² after burnout (gravity only).</div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-top:1.5rem">
+      <div class="insight-icon">📊</div>
+      <div>
+        <div class="insight-title">READING FIGURE 5</div>
+        <div class="insight-text">
+          Height: starts zero, curves upward as velocity builds — the curve steepens because velocity itself is increasing.
+          Velocity: almost linear during burn (nearly constant acceleration) — then a straight negative slope after cutoff (gravity = −9.81 m/s² constantly).
+          Acceleration: flat line at ~35.5 m/s² (constant F and constant simplified mass) — hard drop to −9.81 at t=150. These three plots are linked: a = dv/dt = d²h/dt².
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 7 — SUMMARY ═══ -->
+<section class="section">
+  <div class="inner">
+    <span class="sec-label">CONCLUSION</span>
+    <h2 class="sec-h2"><span class="br">[</span> What This Paper Teaches <span class="br">]</span></h2>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="cc-icon">📈</div>
+        <div class="cc-title">CLOSED-FORM vs NUMERICAL</div>
+        <div class="cc-text">Simple problems (no drag, constant mass) have exact formulas. Complex real-world problems require numerical stepping — Euler's method is the simplest approach.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">⚖️</div>
+        <div class="cc-title">45° IS UNIVERSAL</div>
+        <div class="cc-text">Under no-drag conditions, 45° always maximizes range. This comes directly from sin(2θ) reaching its maximum of 1 at θ=45°. A pure mathematical result.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🔗</div>
+        <div class="cc-title">ODEs ARE COUPLED</div>
+        <div class="cc-text">Height, velocity and acceleration are linked: a = dv/dt, v = dh/dt. Change one and you change them all. Euler decouples them by stepping through tiny Δt intervals.</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🏗️</div>
+        <div class="cc-title">ALGORITHM THINKING</div>
+        <div class="cc-text">The paper demonstrates 5-step computational problem solving: define the problem → identify I/O → design algorithm → implement in MATLAB → test and verify.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER — REFERENCES ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <h3>REFERENCES</h3>
+    <ul class="ref-list">
+      <li><span class="ref-num">[1]</span> Campos & Gil — On Four New Methods of Analytical Calculation of Rocket Trajectories. Aerospace J. 2018, 5, 88.</li>
+      <li><span class="ref-num">[2]</span> Buchanan et al. — The Development of Rocketry Capability in New Zealand. Aerospace J. 2015, 2, 92–117.</li>
+      <li><span class="ref-num">[9]</span> NASA — Rockets Educator Guide. EG-2011–11–223-KSC, 2011.</li>
+      <li><span class="ref-num">[12]</span> Chapman — MATLAB Programming for Engineers, 4th ed. Thomson, 2008, pp.206–216.</li>
+      <li><span class="ref-num">[14]</span> Peasley — 3 DBT Part A: Simulating a Rocket Launch. Oxford Engineering, pp.37–48.</li>
+      <li><span class="ref-num">[15]</span> Peasley — Introduction to the P5 Computing Laboratory. Oxford University.</li>
+    </ul>
+    <div style="margin-top:1.5rem;color:rgba(255,255,255,.25)">
+      MTH 355 · Differential Equations · Paper Visualizer · Abba (2018) · Carleton College MATLAB Workshop
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ JAVASCRIPT: PHYSICS + CHARTS ═══ -->
+<script>
+/* ─── PHYSICS CONSTANTS ─── */
+const G = 9.81;
+const V0 = 20;
+
+/* ─── PARABOLIC: compute trajectory points ─── */
+function trajectory(thetaDeg, steps=120) {
+  const th = thetaDeg * Math.PI / 180;
+  const vx = V0 * Math.cos(th);
+  const vy = V0 * Math.sin(th);
+  const tmax = 2 * vy / G;
+  const pts = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i * tmax / steps;
+    const x = vx * t;
+    const y = vy * t - 0.5 * G * t * t;
+    if (y >= -0.001) pts.push({x: +x.toFixed(4), y: +Math.max(0,y).toFixed(4)});
+  }
+  return pts;
+}
+
+/* ─── PARABOLIC: range for angle ─── */
+function range(thetaDeg) {
+  const th = thetaDeg * Math.PI / 180;
+  const vy = V0 * Math.sin(th);
+  const vx = V0 * Math.cos(th);
+  const tmax = 2 * vy / G;
+  return vx * tmax;
+}
+
+/* ─── FIG 3: TRAJECTORY FAN ─── */
+const ANGLES = [5,15,25,35,45,55,65,75,85];
+const GRAYS = ['#bbb','#aaa','#888','#555','#dc143c','#555','#888','#aaa','#bbb'];
+
+const fig3datasets = ANGLES.map((a, i) => ({
+  label: a + '°',
+  data: trajectory(a),
+  borderColor: GRAYS[i],
+  borderWidth: a === 45 ? 3 : 1.5,
+  pointRadius: 0,
+  tension: 0.3,
+  showLine: true,
+  fill: false,
+}));
+
+new Chart(document.getElementById('fig3chart'), {
+  type: 'scatter',
+  data: { datasets: fig3datasets },
+  options: {
+    responsive: true,
+    animation: { duration: 800 },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          title: items => items[0].dataset.label + ' launch angle',
+          label: item => `x: ${item.parsed.x.toFixed(2)} m   y: ${item.parsed.y.toFixed(2)} m`
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Horizontal Distance x (metres)', font: {family:'JetBrains Mono',size:11}, color:'#333' },
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { font: {family:'JetBrains Mono',size:10}, color:'#555' },
+        min: 0
+      },
+      y: {
+        title: { display: true, text: 'Height y (metres)', font: {family:'JetBrains Mono',size:11}, color:'#333' },
+        grid: { color: 'rgba(0,0,0,0.06)' },
+        ticks: { font: {family:'JetBrains Mono',size:10}, color:'#555' },
+        min: 0
+      }
+    }
+  }
+});
+
+/* ─── FIG 4: RANGE vs ANGLE ─── */
+const allAngles = Array.from({length:91},(_,i)=>i);
+const allRanges = allAngles.map(range);
+const barColors = allAngles.map(a => a === 45 ? '#dc143c' : 'rgba(0,0,0,0.15)');
+
+new Chart(document.getElementById('fig4chart'), {
+  type: 'bar',
+  data: {
+    labels: allAngles.map(a => a % 5 === 0 ? a+'°' : ''),
+    datasets: [{
+      label: 'Range (m)',
+      data: allRanges,
+      backgroundColor: barColors,
+      borderColor: barColors,
+      borderWidth: 0,
+      borderRadius: 0,
+    }]
+  },
+  options: {
+    responsive: true,
+    animation: { duration: 800, delay: ctx => ctx.dataIndex * 2 },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          title: items => 'θ = ' + items[0].label.replace('°','') + '°',
+          label: item => 'Range: ' + item.raw.toFixed(4) + ' m'
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Launch Angle θ (degrees)', font:{family:'JetBrains Mono',size:11}, color:'#333' },
+        grid: { display: false },
+        ticks: { font:{family:'JetBrains Mono',size:10}, color:'#555' }
+      },
+      y: {
+        title: { display: true, text: 'Range (metres)', font:{family:'JetBrains Mono',size:11}, color:'#333' },
+        grid: { color:'rgba(0,0,0,0.06)' },
+        ticks: { font:{family:'JetBrains Mono',size:10}, color:'#555' }
+      }
+    }
+  }
+});
+
+/* ─── SATURN V EULER SIMULATION ─── */
+function runSaturnV() {
+  const dt = 0.1, tstart = 0, tstop = 300;
+  const burnTime = 150;
+  const M_init = 2.9e6;      // total mass at t=0
+  const M_dry  = 0.75e6;     // mass after fuel gone
+  const F_thrust = 34e6;     // N
+  const Cd = 0.6;
+  const g = 9.81;
+
+  let v = 0, h = 0;
+  const T=[], H=[], V=[], A=[];
+
+  for (let t = tstart; t <= tstop + 1e-9; t = +(t + dt).toFixed(4)) {
+    // mass: paper model — instant drop to dry mass at t>0 during burn
+    let M;
+    if (t <= 0)             M = M_init;
+    else if (t < burnTime)  M = M_dry;
+    else                    M = M_dry;
+
+    // thrust
+    const F = (t > 0 && t < burnTime) ? F_thrust : 0;
+
+    // drag (paper: k*0.6, k=0.6 → 0.36, constant)
+    const drag = Cd * 0.6;
+
+    // acceleration (Newton 2nd law)
+    const a = (F - drag - M * g) / M;
+
+    // store every 5th point (30 Hz) to keep chart fast
+    if (Math.round(t/dt) % 5 === 0) {
+      T.push(+t.toFixed(1));
+      H.push(+(h/1000).toFixed(3));   // store in km for height
+      V.push(+v.toFixed(2));
+      A.push(+a.toFixed(4));
+    }
+
+    // Euler step
+    h = h + dt * v;
+    v = v + dt * a;
+  }
+  return {T,H,V,A};
+}
+
+const sv = runSaturnV();
+
+const chartDefaults = {
+  responsive: true,
+  animation: { duration: 600 },
+  plugins: { legend: { display: false } },
+  elements: { point: { radius: 0 } },
+};
+
+const axisStyle = {
+  grid: { color: 'rgba(0,0,0,0.06)' },
+  ticks: { font:{family:'JetBrains Mono',size:10}, color:'#555', maxTicksLimit:8 },
+};
+
+/* HEIGHT */
+new Chart(document.getElementById('fig5h'), {
+  type: 'line',
+  data: {
+    labels: sv.T,
+    datasets: [{
+      data: sv.H,
+      borderColor: '#000',
+      borderWidth: 1.5,
+      fill: false,
+      tension: 0.2,
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      x: { ...axisStyle, title:{display:true,text:'Time t (seconds)',font:{family:'JetBrains Mono',size:11},color:'#333'} },
+      y: { ...axisStyle, title:{display:true,text:'Height h (km)',font:{family:'JetBrains Mono',size:11},color:'#333'} }
+    }
+  }
+});
+
+/* VELOCITY */
+new Chart(document.getElementById('fig5v'), {
+  type: 'line',
+  data: {
+    labels: sv.T,
+    datasets: [{
+      data: sv.V,
+      borderColor: '#dc143c',
+      borderWidth: 1.5,
+      fill: false,
+      tension: 0.2,
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      x: { ...axisStyle, title:{display:true,text:'Time t (s)',font:{family:'JetBrains Mono',size:11},color:'#333'} },
+      y: { ...axisStyle, title:{display:true,text:'Velocity v (m/s)',font:{family:'JetBrains Mono',size:11},color:'#333'} }
+    }
+  }
+});
+
+/* ACCELERATION */
+new Chart(document.getElementById('fig5a'), {
+  type: 'line',
+  data: {
+    labels: sv.T,
+    datasets: [{
+      data: sv.A,
+      borderColor: '#555',
+      borderWidth: 1.5,
+      fill: false,
+      tension: 0.1,
+    }]
+  },
+  options: {
+    ...chartDefaults,
+    scales: {
+      x: { ...axisStyle, title:{display:true,text:'Time t (s)',font:{family:'JetBrains Mono',size:11},color:'#333'} },
+      y: { ...axisStyle, title:{display:true,text:'Acceleration a (m/s²)',font:{family:'JetBrains Mono',size:11},color:'#333'} }
+    }
+  }
+});
+</script>
+</body>
+</html>

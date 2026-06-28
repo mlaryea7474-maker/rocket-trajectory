@@ -1,0 +1,33 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.section-content {
+  min-height: 60vh;
+}
+
+@media (max-width: 1024px) {
+  .main-content { padding: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container { flex-direction: column; }
+}
