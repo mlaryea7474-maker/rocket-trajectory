@@ -250,8 +250,8 @@ export default function Projectile() {
                   contentStyle={{ background: '#0a0a0e', border: '1px solid rgba(220,20,60,0.3)', fontFamily: 'JetBrains Mono', fontSize: 11 }}
                   labelStyle={{ color: 'rgba(255,255,255,0.4)' }}
                   itemStyle={{ color: '#dc143c' }}
-                  formatter={(v: number) => [`${v} m`, 'range']}
-                  labelFormatter={(l: number) => `θ = ${l}°`}
+                  formatter={(v) => [`${v} m`, 'range']}
+                  labelFormatter={(l) => `θ = ${l}°`}
                 />
                 <ReferenceLine
                   x={45}
