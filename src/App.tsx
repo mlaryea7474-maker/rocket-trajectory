@@ -10,6 +10,7 @@ import Projectile from './components/sections/Projectile'
 import SaturnV from './components/sections/SaturnV'
 import ModelExplanation from './components/sections/ModelExplanation'
 import MatlabCode from './components/sections/MatlabCode'
+import AfricaAdvantage from './components/sections/AfricaAdvantage'
 import Placeholder from './components/sections/Placeholder'
 import './App.css'
 
@@ -58,7 +59,8 @@ export default function App() {
                   {activeSection === 'saturn-v' && <SaturnV />}
                   {activeSection === 'model' && <ModelExplanation />}
                   {activeSection === 'references' && <MatlabCode />}
-                  {activeSection !== 'introduction' && activeSection !== 'ode-system' && activeSection !== 'projectile' && activeSection !== 'saturn-v' && activeSection !== 'model' && activeSection !== 'references' && <Placeholder id={activeSection} />}
+                  {activeSection === 'africa-advantage' && <AfricaAdvantage />}
+                  {activeSection !== 'introduction' && activeSection !== 'ode-system' && activeSection !== 'projectile' && activeSection !== 'saturn-v' && activeSection !== 'model' && activeSection !== 'references' && activeSection !== 'africa-advantage' && <Placeholder id={activeSection} />}
                 </motion.div>
               </AnimatePresence>
             </main>

@@ -17,15 +17,16 @@ function CubeIcon() {
 }
 import './Sidebar.css'
 
-export type Section = 'introduction' | 'ode-system' | 'projectile' | 'saturn-v' | 'model' | 'references'
+export type Section = 'introduction' | 'ode-system' | 'projectile' | 'saturn-v' | 'model' | 'references' | 'africa-advantage'
 
 const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: string }[] = [
-  { id: 'introduction', label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
-  { id: 'ode-system',   label: 'ODE System',         icon: <Sigma size={16} />,       sub: 'The Equations' },
-  { id: 'projectile',   label: 'Projectile Model',   icon: <TrendingUp size={16} />,  sub: 'Fig. 3 · Trajectory Fan' },
-  { id: 'saturn-v',     label: 'Saturn V',           icon: <Rocket size={16} />,      sub: 'Fig. 5 · Euler Sim' },
-  { id: 'model',        label: 'Model Explanation',  icon: <Wrench size={16} />,      sub: 'Euler · Forces · Sensitivity' },
-  { id: 'references',   label: 'MATLAB Code',        icon: <Terminal size={16} />,    sub: 'Euler Loop · Launch from Ghana' },
+  { id: 'introduction',     label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
+  { id: 'ode-system',       label: 'ODE System',         icon: <Sigma size={16} />,       sub: 'The Equations' },
+  { id: 'projectile',       label: 'Projectile Model',   icon: <TrendingUp size={16} />,  sub: 'Fig. 3 · Trajectory Fan' },
+  { id: 'saturn-v',         label: 'Saturn V',           icon: <Rocket size={16} />,      sub: 'Fig. 5 · Euler Sim' },
+  { id: 'model',            label: 'Model Explanation',  icon: <Wrench size={16} />,      sub: 'Euler · Forces · Sensitivity' },
+  { id: 'references',       label: 'MATLAB Code',        icon: <Terminal size={16} />,    sub: 'Euler Loop · Launch from Ghana' },
+  { id: 'africa-advantage', label: 'Africa Advantage',   icon: <Rocket size={16} />,      sub: 'Launch Sites · Free Velocity' },
 ]
 
 interface Props {
