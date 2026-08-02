@@ -72,14 +72,8 @@ const BEAT = "He started simple. He fired the projectile at 20 m/s and plotted t
 
 const CONCLUSION_TEXT = "He found 45° every time. Clean geometry, one equation, no computer needed. He had solved the simple model. Now for the actual rocket."
 
-function useStream(text: string, trigger: boolean) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    if (!trigger || idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 20)
-    return () => clearTimeout(t)
-  }, [trigger, idx, text.length])
-  return { display: text.slice(0, idx), done: idx >= text.length }
+function useStream(text: string, _trigger: boolean) {
+  return { display: text, done: true }
 }
 
 const fadeUp = (delay = 0) => ({
@@ -92,8 +86,8 @@ export default function Projectile() {
   const trajectoryData = useMemo(buildTrajectoryData, [])
   const rangeData = useMemo(buildRangeData, [])
 
-  const [beatIdx,          setBeatIdx]          = useState(0)
-  const beatDone = beatIdx >= BEAT.length
+  const [beatIdx] = useState(BEAT.length)
+  const beatDone = true
 
   const [fig3Active,       setFig3Active]       = useState(false)
   const [fig4Active,       setFig4Active]       = useState(false)
@@ -146,8 +140,7 @@ export default function Projectile() {
       {/* Narrative beat */}
       <motion.div className="proj-beat" {...fadeUp(0.05)}>
         <p className="beat-line">
-          {BEAT.slice(0, beatIdx)}
-          <span className="stream-cursor" />
+          {BEAT}
         </p>
       </motion.div>
 
@@ -288,7 +281,6 @@ export default function Projectile() {
             <span className="section-tag">RESULT</span>
             <p className="beat-line">
               {conclusion.display}
-              {!conclusion.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

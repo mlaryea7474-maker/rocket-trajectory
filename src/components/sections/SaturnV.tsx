@@ -46,14 +46,8 @@ const BEAT = "He then modeled the real rocket. The Saturn V: 2.9 million kilogra
 
 const CONCLUSION_TEXT = "He got three curves. Unlike the projectile, nothing here was predictable in advance. The mass was shrinking, the drag was shifting, every step changed the next. This is what numerical methods produce when the math has no clean answer. Next: how he built it."
 
-function useStream(text: string, trigger: boolean) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    if (!trigger || idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 20)
-    return () => clearTimeout(t)
-  }, [trigger, idx, text.length])
-  return { display: text.slice(0, idx), done: idx >= text.length }
+function useStream(text: string, _trigger: boolean) {
+  return { display: text, done: true }
 }
 
 const fadeUp = (delay = 0) => ({
@@ -78,8 +72,8 @@ function ChartTip({ active, payload, label, unit }: any) {
 export default function SaturnV() {
   const data = useMemo(buildSaturnData, [])
 
-  const [beatIdx,          setBeatIdx]          = useState(0)
-  const beatDone = beatIdx >= BEAT.length
+  const [beatIdx] = useState(BEAT.length)
+  const beatDone = true
 
   const [altActive,        setAltActive]        = useState(false)
   const [velActive,        setVelActive]        = useState(false)
@@ -145,8 +139,7 @@ export default function SaturnV() {
       {/* Narrative beat */}
       <motion.div className="sv-beat" {...fadeUp(0.05)}>
         <p className="beat-line">
-          {BEAT.slice(0, beatIdx)}
-          <span className="stream-cursor" />
+          {BEAT}
         </p>
       </motion.div>
 
@@ -259,7 +252,6 @@ export default function SaturnV() {
             <span className="section-tag">OBSERVATION</span>
             <p className="beat-line">
               {conclusion.display}
-              {!conclusion.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

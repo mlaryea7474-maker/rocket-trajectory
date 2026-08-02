@@ -37,14 +37,8 @@ const VARIABLES = [
   { sym: 'ṁ',       def: 'propellant mass flow rate',   unit: '13,000 kg/s' },
 ]
 
-function useStream(text: string, trigger: boolean) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    if (!trigger || idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 18)
-    return () => clearTimeout(t)
-  }, [trigger, idx, text.length])
-  return { display: text.slice(0, idx), done: idx >= text.length }
+function useStream(text: string, _trigger: boolean) {
+  return { display: text, done: true }
 }
 
 const fadeUp = (delay = 0) => ({
@@ -54,8 +48,8 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function OdeSystem() {
-  const [beatIdx, setBeatIdx] = useState(0)
-  const beatDone = beatIdx >= BEAT.length
+  const [beatIdx] = useState(BEAT.length)
+  const beatDone = true
 
   const [equationsActive, setEquationsActive] = useState(false)
   const [varsActive,      setVarsActive]      = useState(false)
@@ -108,8 +102,7 @@ export default function OdeSystem() {
       {/* Narrative beat */}
       <motion.div className="ode-beat" {...fadeUp(0.05)}>
         <p className="beat-line">
-          {BEAT.slice(0, beatIdx)}
-          <span className="stream-cursor" />
+          {BEAT}
         </p>
       </motion.div>
 
@@ -191,7 +184,6 @@ export default function OdeSystem() {
             <span className="section-tag">TWO PATHS</span>
             <p className="ode-bridge-text" style={{ marginTop: '0.75rem' }}>
               {bridge.display}
-              {!bridge.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

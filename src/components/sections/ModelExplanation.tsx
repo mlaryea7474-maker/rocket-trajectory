@@ -38,14 +38,8 @@ const FORCES = [
   },
 ]
 
-function useStream(text: string, trigger: boolean) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    if (!trigger || idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 20)
-    return () => clearTimeout(t)
-  }, [trigger, idx, text.length])
-  return { display: text.slice(0, idx), done: idx >= text.length }
+function useStream(text: string, _trigger: boolean) {
+  return { display: text, done: true }
 }
 
 const fadeUp = (delay = 0) => ({
@@ -55,8 +49,8 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function ModelExplanation() {
-  const [beatIdx,   setBeatIdx]   = useState(0)
-  const beatDone = beatIdx >= BEAT.length
+  const [beatIdx] = useState(BEAT.length)
+  const beatDone = true
 
   const [ideaActive,       setIdeaActive]       = useState(false)
   const [loopActive,       setLoopActive]       = useState(false)
@@ -127,8 +121,7 @@ export default function ModelExplanation() {
       {/* Narrative beat */}
       <motion.div className="me-beat" {...fadeUp(0.05)}>
         <p className="beat-line">
-          {BEAT.slice(0, beatIdx)}
-          <span className="stream-cursor" />
+          {BEAT}
         </p>
       </motion.div>
 
@@ -145,7 +138,6 @@ export default function ModelExplanation() {
             <span className="section-tag">THE QUESTION</span>
             <p className="me-prose" style={{ marginTop: '0.75rem' }}>
               {idea.display}
-              {!idea.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}
@@ -227,7 +219,6 @@ export default function ModelExplanation() {
             <span className="section-tag">WHY IT WORKS</span>
             <p className="me-prose" style={{ marginTop: '0.75rem' }}>
               {why.display}
-              {!why.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}
@@ -246,7 +237,6 @@ export default function ModelExplanation() {
             <span className="section-tag">CONCLUSION</span>
             <p className="me-prose" style={{ marginTop: '0.75rem' }}>
               {conclusion.display}
-              {!conclusion.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

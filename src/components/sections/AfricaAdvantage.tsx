@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ComposedChart, Area, XAxis, YAxis,
@@ -45,25 +45,11 @@ const CURVE_DATA = Array.from({ length: 181 }, (_, i) => ({
 const BEAT = "The formula is simple. The closer to the equator, the more of Earth's rotation a rocket inherits for free. Every metre per second here is a metre per second that does not need to come from propellant."
 
 function useStream(text: string) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => {
-    if (idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 18)
-    return () => clearTimeout(t)
-  }, [idx, text.length])
-  return { display: text.slice(0, idx), done: idx >= text.length }
+  return { display: text, done: true }
 }
 
-// Resets and re-streams whenever `key` changes
-function useSiteStream(text: string, key: string) {
-  const [idx, setIdx] = useState(0)
-  useEffect(() => { setIdx(0) }, [key])
-  useEffect(() => {
-    if (idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 14)
-    return () => clearTimeout(t)
-  }, [idx, text.length])
-  return text.slice(0, idx)
+function useSiteStream(text: string, _key: string) {
+  return text
 }
 
 function siteExplanation(site: { name: string; country: string; lat: number; continent: string }, advSpaceX: number, myVrot: number, propSaved: number): string {
@@ -109,14 +95,8 @@ const fadeUp = (delay = 0) => ({
 export default function AfricaAdvantage() {
   const [lat, setLat]       = useState(7.9)
   const [selected, setSelected] = useState('Accra')
-  const [chartReady, setChartReady] = useState(false)
+  const [chartReady] = useState(true)
   const narrative = useStream(BEAT)
-
-  useEffect(() => {
-    if (!narrative.done) return
-    const t = setTimeout(() => setChartReady(true), 300)
-    return () => clearTimeout(t)
-  }, [narrative.done])
 
   function pickSite(name: string) {
     const site = SITES.find(s => s.name === name)
@@ -224,7 +204,6 @@ export default function AfricaAdvantage() {
       <motion.div className="sv-beat" {...fadeUp(0.1)}>
         <p className="beat-line">
           {narrative.display}
-          {!narrative.done && <span className="stream-cursor" />}
         </p>
       </motion.div>
 
@@ -359,7 +338,6 @@ export default function AfricaAdvantage() {
             </div>
             <p className="aa-explain-text">
               {siteExpl}
-              {siteExpl.length < explanationText.length && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

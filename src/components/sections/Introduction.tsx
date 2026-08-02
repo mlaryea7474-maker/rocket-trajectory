@@ -15,17 +15,8 @@ const LEFT_TEXT  = "He modelled the projectile by ignoring drag and thrust entir
 const RIGHT_TEXT = "The Saturn V changed every assumption he had made. With mass burning off at 13,000 kilograms every second and drag shifting with every metre of the climb, every variable in the problem was constantly changing. There was no neat formula that could predict where it would end up."
 const CONCLUSION = "What Abba showed is worth understanding. Not every problem has a neat formula for an answer. The simple projectile does: one equation, 45°, and you are done. The real rocket does not. Too many things are changing at the same time for any single formula to keep up. When that happens, you do not give up on the problem. You break time into tiny pieces, solve it one small step at a time, and let the answer build itself. That is what this paper is about."
 
-/* ─── Stream hook — trigger-based ─────────────────────── */
-function useStream(text: string, trigger: boolean) {
-  const [idx, setIdx] = useState(0)
-
-  useEffect(() => {
-    if (!trigger || idx >= text.length) return
-    const t = setTimeout(() => setIdx(i => i + 1), 22)
-    return () => clearTimeout(t)
-  }, [trigger, idx, text.length])
-
-  return { display: text.slice(0, idx), done: idx >= text.length }
+function useStream(text: string, _trigger: boolean) {
+  return { display: text, done: true }
 }
 
 const fadeUp = (delay = 0) => ({
@@ -93,10 +84,9 @@ function RocketViz({ active }: { active: boolean }) {
 
 /* ─── Main ─────────────────────────────────────────────── */
 export default function Introduction() {
-  const [paraIndex, setParaIndex] = useState(0)
-  const [charIndex, setCharIndex] = useState(0)
+  const [paraIndex] = useState(STORY.length)
   const streamEndRef = useRef<HTMLDivElement>(null)
-  const streamingDone = paraIndex >= STORY.length
+  const streamingDone = true
 
   // Sequential flags
   const [showContrast,    setShowContrast]    = useState(false)
@@ -107,22 +97,6 @@ export default function Introduction() {
   const left       = useStream(LEFT_TEXT,  leftActive)
   const right      = useStream(RIGHT_TEXT, rightActive)
   const conclusion = useStream(CONCLUSION, conclusionActive)
-
-  /* briefing stream */
-  useEffect(() => {
-    if (streamingDone) return
-    const current = STORY[paraIndex]
-    if (charIndex >= current.length) {
-      const id = setTimeout(() => { setParaIndex(p => p + 1); setCharIndex(0) }, 300)
-      return () => clearTimeout(id)
-    }
-    const id = setTimeout(() => setCharIndex(c => c + 1), 16)
-    return () => clearTimeout(id)
-  }, [paraIndex, charIndex, streamingDone])
-
-  useEffect(() => {
-    streamEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-  }, [paraIndex])
 
   /* step 1: briefing done → show contrast + start left */
   useEffect(() => {
@@ -145,11 +119,7 @@ export default function Introduction() {
     return () => clearTimeout(t)
   }, [right.done, rightActive])
 
-  const displayedParas = STORY.map((text, i) => {
-    if (i < paraIndex) return text
-    if (i === paraIndex) return text.slice(0, charIndex)
-    return null
-  })
+  const displayedParas = STORY.map(text => text)
 
   return (
     <div className="intro-page">
@@ -177,8 +147,6 @@ export default function Introduction() {
             text !== null && text.length > 0 ? (
               <p key={i} className="story-para">
                 {text}
-                {(i === paraIndex && !streamingDone) || (streamingDone && i === STORY.length - 1)
-                  ? <span className="stream-cursor" /> : null}
               </p>
             ) : null
           )}
@@ -212,7 +180,6 @@ export default function Introduction() {
                 <ParabolaViz active={leftActive} />
                 <p className="contrast-text">
                   {left.display}
-                  {leftActive && !left.done && <span className="stream-cursor" />}
                 </p>
               </div>
 
@@ -224,7 +191,6 @@ export default function Introduction() {
                 <RocketViz active={rightActive} />
                 <p className="contrast-text">
                   {right.display}
-                  {rightActive && !right.done && <span className="stream-cursor" />}
                 </p>
               </div>
             </div>
@@ -247,7 +213,6 @@ export default function Introduction() {
             </div>
             <p className="intro-conclusion-text">
               {conclusion.display}
-              {!conclusion.done && <span className="stream-cursor" />}
             </p>
           </motion.div>
         )}

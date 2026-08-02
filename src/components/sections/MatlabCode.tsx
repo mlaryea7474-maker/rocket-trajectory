@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import './MatlabCode.css'
 
@@ -126,12 +126,12 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function MatlabCode() {
-  const [beatIdx,     setBeatIdx]     = useState(0)
-  const beatDone = beatIdx >= BEAT.length
+  const [beatIdx] = useState(BEAT.length)
+  const beatDone = true
 
-  const [codeActive,  setCodeActive]  = useState(false)
-  const [codeIdx,     setCodeIdx]     = useState(0)
-  const codeDone = codeIdx >= CODE.length
+  const [codeActive] = useState(true)
+  const [codeIdx] = useState(CODE.length)
+  const codeDone = true
 
   const [copied, setCopied] = useState(false)
   function copyCode() {
@@ -140,26 +140,6 @@ export default function MatlabCode() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  /* beat stream */
-  useEffect(() => {
-    if (beatDone) return
-    const t = setTimeout(() => setBeatIdx(i => i + 1), 18)
-    return () => clearTimeout(t)
-  }, [beatIdx, beatDone])
-
-  /* beat done → show code block */
-  useEffect(() => {
-    if (!beatDone) return
-    const t = setTimeout(() => setCodeActive(true), 400)
-    return () => clearTimeout(t)
-  }, [beatDone])
-
-  /* code stream */
-  useEffect(() => {
-    if (!codeActive || codeDone) return
-    const t = setTimeout(() => setCodeIdx(i => i + 1), 6)
-    return () => clearTimeout(t)
-  }, [codeActive, codeIdx, codeDone])
 
   return (
     <div className="matlab-page">
@@ -178,8 +158,7 @@ export default function MatlabCode() {
       {/* Narrative beat */}
       <motion.div className="matlab-beat" {...fadeUp(0.05)}>
         <p className="beat-line">
-          {renderBeat(beatIdx)}
-          {!beatDone && <span className="stream-cursor" />}
+          {renderBeat(BEAT.length)}
         </p>
       </motion.div>
 
@@ -202,12 +181,11 @@ export default function MatlabCode() {
               </button>
             </div>
             <pre className="code-body">
-              {renderHighlighted(CODE.slice(0, codeIdx))}
-              {!codeDone && <span className="stream-cursor" />}
+              {renderHighlighted(CODE)}
             </pre>
             <div className="code-footer-bar">
-              <span>LINES: {CODE.slice(0, codeIdx).split('\n').length} / {CODE.split('\n').length}</span>
-              <span>{codeDone ? 'COMPLETE' : 'WRITING...'}</span>
+              <span>LINES: {CODE.split('\n').length}</span>
+              <span>COMPLETE</span>
             </div>
           </motion.div>
         )}
