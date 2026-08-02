@@ -48,42 +48,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function OdeSystem() {
-  const [beatIdx] = useState(BEAT.length)
-  const beatDone = true
-
-  const [equationsActive, setEquationsActive] = useState(false)
-  const [varsActive,      setVarsActive]      = useState(false)
-  const [bridgeActive,    setBridgeActive]    = useState(false)
-
-  const bridge = useStream(BRIDGE_TEXT, bridgeActive)
-
-  /* beat stream */
-  useEffect(() => {
-    if (beatDone) return
-    const t = setTimeout(() => setBeatIdx(i => i + 1), 16)
-    return () => clearTimeout(t)
-  }, [beatIdx, beatDone])
-
-  /* beat done → equations */
-  useEffect(() => {
-    if (!beatDone) return
-    const t = setTimeout(() => setEquationsActive(true), 400)
-    return () => clearTimeout(t)
-  }, [beatDone])
-
-  /* equations active → variables (3 rows × 150ms stagger + buffer) */
-  useEffect(() => {
-    if (!equationsActive) return
-    const t = setTimeout(() => setVarsActive(true), 900)
-    return () => clearTimeout(t)
-  }, [equationsActive])
-
-  /* vars active → bridge (7 cards × 70ms stagger + buffer) */
-  useEffect(() => {
-    if (!varsActive) return
-    const t = setTimeout(() => setBridgeActive(true), 900)
-    return () => clearTimeout(t)
-  }, [varsActive])
+  const bridge = useStream(BRIDGE_TEXT, true)
 
   return (
     <div className="ode-page">
@@ -108,7 +73,7 @@ export default function OdeSystem() {
 
       {/* The three equations */}
       <AnimatePresence>
-        {equationsActive && (
+        {true && (
           <motion.div
             key="equations"
             className="ode-equations"
@@ -142,7 +107,7 @@ export default function OdeSystem() {
 
       {/* Variable definitions */}
       <AnimatePresence>
-        {varsActive && (
+        {true && (
           <motion.div
             key="vars"
             initial={{ opacity: 0, y: 16 }}
@@ -173,7 +138,7 @@ export default function OdeSystem() {
 
       {/* Bridge card */}
       <AnimatePresence>
-        {bridgeActive && (
+        {true && (
           <motion.div
             key="bridge"
             className="ode-bridge card"

@@ -86,42 +86,7 @@ export default function Projectile() {
   const trajectoryData = useMemo(buildTrajectoryData, [])
   const rangeData = useMemo(buildRangeData, [])
 
-  const [beatIdx] = useState(BEAT.length)
-  const beatDone = true
-
-  const [fig3Active,       setFig3Active]       = useState(false)
-  const [fig4Active,       setFig4Active]       = useState(false)
-  const [conclusionActive, setConclusionActive] = useState(false)
-
-  const conclusion = useStream(CONCLUSION_TEXT, conclusionActive)
-
-  /* beat stream */
-  useEffect(() => {
-    if (beatDone) return
-    const t = setTimeout(() => setBeatIdx(i => i + 1), 22)
-    return () => clearTimeout(t)
-  }, [beatIdx, beatDone])
-
-  /* beat done → fig 3 */
-  useEffect(() => {
-    if (!beatDone) return
-    const t = setTimeout(() => setFig3Active(true), 400)
-    return () => clearTimeout(t)
-  }, [beatDone])
-
-  /* fig3 active → fig 4 (after chart animates: 1400ms + buffer) */
-  useEffect(() => {
-    if (!fig3Active) return
-    const t = setTimeout(() => setFig4Active(true), 1800)
-    return () => clearTimeout(t)
-  }, [fig3Active])
-
-  /* fig4 active → conclusion (after chart animates: 1600ms + buffer) */
-  useEffect(() => {
-    if (!fig4Active) return
-    const t = setTimeout(() => setConclusionActive(true), 2000)
-    return () => clearTimeout(t)
-  }, [fig4Active])
+  const conclusion = useStream(CONCLUSION_TEXT, true)
 
   return (
     <div className="proj-page">
@@ -146,7 +111,7 @@ export default function Projectile() {
 
       {/* Fig 3 — Trajectory fan */}
       <AnimatePresence>
-        {fig3Active && (
+        {true && (
           <motion.div
             key="fig3"
             className="chart-card"
@@ -209,7 +174,7 @@ export default function Projectile() {
 
       {/* Fig 4 — Range vs angle */}
       <AnimatePresence>
-        {fig4Active && (
+        {true && (
           <motion.div
             key="fig4"
             className="chart-card"
@@ -270,7 +235,7 @@ export default function Projectile() {
 
       {/* Conclusion */}
       <AnimatePresence>
-        {conclusionActive && (
+        {true && (
           <motion.div
             key="conclusion"
             className="proj-conclusion card"

@@ -72,55 +72,12 @@ function ChartTip({ active, payload, label, unit }: any) {
 export default function SaturnV() {
   const data = useMemo(buildSaturnData, [])
 
-  const [beatIdx] = useState(BEAT.length)
-  const beatDone = true
-
-  const [altActive,        setAltActive]        = useState(false)
-  const [velActive,        setVelActive]        = useState(false)
-  const [accActive,        setAccActive]        = useState(false)
-  const [conclusionActive, setConclusionActive] = useState(false)
-
-  const conclusion = useStream(CONCLUSION_TEXT, conclusionActive)
+  const conclusion = useStream(CONCLUSION_TEXT, true)
 
   const axisProps = {
     stroke: 'rgba(255,255,255,0.15)',
     tick: { fill: 'rgba(255,255,255,0.3)', fontSize: 10, fontFamily: 'JetBrains Mono' },
   }
-
-  /* beat stream */
-  useEffect(() => {
-    if (beatDone) return
-    const t = setTimeout(() => setBeatIdx(i => i + 1), 22)
-    return () => clearTimeout(t)
-  }, [beatIdx, beatDone])
-
-  /* beat done → altitude chart */
-  useEffect(() => {
-    if (!beatDone) return
-    const t = setTimeout(() => setAltActive(true), 400)
-    return () => clearTimeout(t)
-  }, [beatDone])
-
-  /* altitude active → velocity chart (after 1600ms animation + buffer) */
-  useEffect(() => {
-    if (!altActive) return
-    const t = setTimeout(() => setVelActive(true), 2000)
-    return () => clearTimeout(t)
-  }, [altActive])
-
-  /* velocity active → acceleration chart */
-  useEffect(() => {
-    if (!velActive) return
-    const t = setTimeout(() => setAccActive(true), 2200)
-    return () => clearTimeout(t)
-  }, [velActive])
-
-  /* acceleration active → conclusion */
-  useEffect(() => {
-    if (!accActive) return
-    const t = setTimeout(() => setConclusionActive(true), 2400)
-    return () => clearTimeout(t)
-  }, [accActive])
 
   return (
     <div className="sv-page">
@@ -145,7 +102,7 @@ export default function SaturnV() {
 
       {/* Chart 1 — Altitude */}
       <AnimatePresence>
-        {altActive && (
+        {true && (
           <motion.div
             key="alt"
             className="chart-card"
@@ -177,7 +134,7 @@ export default function SaturnV() {
 
       {/* Chart 2 — Velocity */}
       <AnimatePresence>
-        {velActive && (
+        {true && (
           <motion.div
             key="vel"
             className="chart-card"
@@ -209,7 +166,7 @@ export default function SaturnV() {
 
       {/* Chart 3 — Acceleration */}
       <AnimatePresence>
-        {accActive && (
+        {true && (
           <motion.div
             key="acc"
             className="chart-card"
@@ -241,7 +198,7 @@ export default function SaturnV() {
 
       {/* Conclusion */}
       <AnimatePresence>
-        {conclusionActive && (
+        {true && (
           <motion.div
             key="conclusion"
             className="sv-conclusion card"

@@ -88,36 +88,9 @@ export default function Introduction() {
   const streamEndRef = useRef<HTMLDivElement>(null)
   const streamingDone = true
 
-  // Sequential flags
-  const [showContrast,    setShowContrast]    = useState(false)
-  const [leftActive,      setLeftActive]      = useState(false)
-  const [rightActive,     setRightActive]     = useState(false)
-  const [conclusionActive, setConclusionActive] = useState(false)
-
-  const left       = useStream(LEFT_TEXT,  leftActive)
-  const right      = useStream(RIGHT_TEXT, rightActive)
-  const conclusion = useStream(CONCLUSION, conclusionActive)
-
-  /* step 1: briefing done → show contrast + start left */
-  useEffect(() => {
-    if (!streamingDone) return
-    const t = setTimeout(() => { setShowContrast(true); setLeftActive(true) }, 500)
-    return () => clearTimeout(t)
-  }, [streamingDone])
-
-  /* step 2: left done → start right */
-  useEffect(() => {
-    if (!left.done || !leftActive) return
-    const t = setTimeout(() => setRightActive(true), 450)
-    return () => clearTimeout(t)
-  }, [left.done, leftActive])
-
-  /* step 3: right done → start conclusion */
-  useEffect(() => {
-    if (!right.done || !rightActive) return
-    const t = setTimeout(() => setConclusionActive(true), 500)
-    return () => clearTimeout(t)
-  }, [right.done, rightActive])
+  const left       = useStream(LEFT_TEXT,  true)
+  const right      = useStream(RIGHT_TEXT, true)
+  const conclusion = useStream(CONCLUSION, true)
 
   const displayedParas = STORY.map(text => text)
 
@@ -160,7 +133,7 @@ export default function Introduction() {
 
       {/* Contrast panel — appears only after briefing finishes */}
       <AnimatePresence>
-        {showContrast && (
+        {true && (
           <motion.div
             key="contrast"
             className="contrast-panel"
@@ -177,7 +150,7 @@ export default function Introduction() {
               {/* Left — simple model */}
               <div className="contrast-side">
                 <div className="contrast-tag">SIMPLE PROJECTILE</div>
-                <ParabolaViz active={leftActive} />
+                <ParabolaViz active={true} />
                 <p className="contrast-text">
                   {left.display}
                 </p>
@@ -188,7 +161,7 @@ export default function Introduction() {
               {/* Right — real rocket */}
               <div className="contrast-side">
                 <div className="contrast-tag">SATURN V</div>
-                <RocketViz active={rightActive} />
+                <RocketViz active={true} />
                 <p className="contrast-text">
                   {right.display}
                 </p>
@@ -198,9 +171,8 @@ export default function Introduction() {
         )}
       </AnimatePresence>
 
-      {/* Conclusion — streams in after both models are shown */}
       <AnimatePresence>
-        {conclusionActive && (
+        {true && (
           <motion.div
             key="conclusion"
             className="intro-conclusion"

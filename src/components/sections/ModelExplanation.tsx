@@ -49,60 +49,9 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function ModelExplanation() {
-  const [beatIdx] = useState(BEAT.length)
-  const beatDone = true
-
-  const [ideaActive,       setIdeaActive]       = useState(false)
-  const [loopActive,       setLoopActive]       = useState(false)
-  const [forcesActive,     setForcesActive]     = useState(false)
-  const [whyActive,        setWhyActive]        = useState(false)
-  const [conclusionActive, setConclusionActive] = useState(false)
-
-  const idea       = useStream(IDEA_TEXT,       ideaActive)
-  const why        = useStream(WHY_TEXT,        whyActive)
-  const conclusion = useStream(CONCLUSION_TEXT, conclusionActive)
-
-  /* beat stream */
-  useEffect(() => {
-    if (beatDone) return
-    const t = setTimeout(() => setBeatIdx(i => i + 1), 20)
-    return () => clearTimeout(t)
-  }, [beatIdx, beatDone])
-
-  /* beat done → idea */
-  useEffect(() => {
-    if (!beatDone) return
-    const t = setTimeout(() => setIdeaActive(true), 400)
-    return () => clearTimeout(t)
-  }, [beatDone])
-
-  /* idea done → loop equations */
-  useEffect(() => {
-    if (!idea.done || !ideaActive) return
-    const t = setTimeout(() => setLoopActive(true), 400)
-    return () => clearTimeout(t)
-  }, [idea.done, ideaActive])
-
-  /* loop active → forces (allow all 4 equations to stagger in first) */
-  useEffect(() => {
-    if (!loopActive) return
-    const t = setTimeout(() => setForcesActive(true), 900)
-    return () => clearTimeout(t)
-  }, [loopActive])
-
-  /* forces active → why it works (allow 3 cards to stagger in) */
-  useEffect(() => {
-    if (!forcesActive) return
-    const t = setTimeout(() => setWhyActive(true), 900)
-    return () => clearTimeout(t)
-  }, [forcesActive])
-
-  /* why done → conclusion */
-  useEffect(() => {
-    if (!why.done || !whyActive) return
-    const t = setTimeout(() => setConclusionActive(true), 400)
-    return () => clearTimeout(t)
-  }, [why.done, whyActive])
+  const idea       = useStream(IDEA_TEXT,       true)
+  const why        = useStream(WHY_TEXT,        true)
+  const conclusion = useStream(CONCLUSION_TEXT, true)
 
   return (
     <div className="me-page">
@@ -127,7 +76,7 @@ export default function ModelExplanation() {
 
       {/* What Euler's method is */}
       <AnimatePresence>
-        {ideaActive && (
+        {true && (
           <motion.div
             key="idea"
             className="me-card card"
@@ -145,7 +94,7 @@ export default function ModelExplanation() {
 
       {/* The four update equations */}
       <AnimatePresence>
-        {loopActive && (
+        {true && (
           <motion.div
             key="loop"
             className="me-equations"
@@ -176,7 +125,7 @@ export default function ModelExplanation() {
 
       {/* Three forces */}
       <AnimatePresence>
-        {forcesActive && (
+        {true && (
           <motion.div
             key="forces"
             initial={{ opacity: 0, y: 16 }}
@@ -208,7 +157,7 @@ export default function ModelExplanation() {
 
       {/* Why it works */}
       <AnimatePresence>
-        {whyActive && (
+        {true && (
           <motion.div
             key="why"
             className="me-card card"
@@ -226,7 +175,7 @@ export default function ModelExplanation() {
 
       {/* Final conclusion */}
       <AnimatePresence>
-        {conclusionActive && (
+        {true && (
           <motion.div
             key="conclusion"
             className="me-conclusion card"
