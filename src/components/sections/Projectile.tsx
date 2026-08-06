@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ComposedChart, Line, XAxis, YAxis, CartesianGrid,

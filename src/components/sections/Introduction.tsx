@@ -84,9 +84,7 @@ function RocketViz({ active }: { active: boolean }) {
 
 /* ─── Main ─────────────────────────────────────────────── */
 export default function Introduction() {
-  const [paraIndex] = useState(STORY.length)
   const streamEndRef = useRef<HTMLDivElement>(null)
-  const streamingDone = true
 
   const left       = useStream(LEFT_TEXT,  true)
   const right      = useStream(RIGHT_TEXT, true)

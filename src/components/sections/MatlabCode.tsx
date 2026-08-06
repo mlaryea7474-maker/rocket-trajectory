@@ -126,12 +126,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function MatlabCode() {
-  const [beatIdx] = useState(BEAT.length)
-  const beatDone = true
-
   const [codeActive] = useState(true)
-  const [codeIdx] = useState(CODE.length)
-  const codeDone = true
 
   const [copied, setCopied] = useState(false)
   function copyCode() {
