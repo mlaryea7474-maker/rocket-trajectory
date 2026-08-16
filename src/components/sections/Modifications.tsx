@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import './Modifications.css'
 
 const BEAT = "Abba's model works. He set up the three equations, stepped through 150 seconds, and got three curves. But he made two shortcuts along the way. He used the simplest possible way to step through time. And he treated gravity as if it was the same everywhere, from the launchpad all the way up to 58 km. We wanted to see what would change if we fixed both."
@@ -39,6 +40,10 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function Modifications() {
+  const beat    = useTypewriter(BEAT)
+  const rk4     = useTypewriter(RK4_INTRO)
+  const gravity = useTypewriter(GRAVITY_INTRO)
+
   return (
     <div className="mods-page">
 
@@ -55,7 +60,7 @@ export default function Modifications() {
 
       {/* Opening beat */}
       <motion.div className="mods-beat" {...fadeUp(0.05)}>
-        <p className="beat-line">{BEAT}</p>
+        <p className="beat-line">{beat.display}</p>
       </motion.div>
 
       {/* Two-mod overview grid */}
@@ -107,7 +112,7 @@ export default function Modifications() {
               <span className="chart-tag">HOW RK4 ACTUALLY WORKS</span>
               <span className="mods-deep-sub">four looks per step, applied to Abba's three equations</span>
             </div>
-            <p className="beat-line" style={{ marginBottom: '1rem' }}>{RK4_INTRO}</p>
+            <p className="beat-line" style={{ marginBottom: '1rem' }}>{rk4.display}</p>
 
             <div className="rk4-steps">
               {RK4_STEPS.map((s, i) => (
@@ -159,7 +164,7 @@ export default function Modifications() {
               <span className="chart-tag">HOW MUCH GRAVITY ACTUALLY CHANGES</span>
               <span className="mods-deep-sub">gravity at four different heights, computed from Newton's law</span>
             </div>
-            <p className="beat-line" style={{ marginBottom: '1rem' }}>{GRAVITY_INTRO}</p>
+            <p className="beat-line" style={{ marginBottom: '1rem' }}>{gravity.display}</p>
 
             <div className="grav-strip">
               <div className="grav-block">

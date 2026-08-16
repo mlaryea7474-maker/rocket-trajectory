@@ -4,6 +4,20 @@
   gap: 1.5rem;
 }
 
+.res-beat {
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.35);
+  padding: 0.9rem 1.25rem;
+}
+
+.res-beat .beat-line {
+  font-family: var(--font-mono);
+  font-size: 0.94rem;
+  color: rgba(245, 240, 230, 0.78);
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+
 /* Controls */
 .res-controls {
   display: grid;

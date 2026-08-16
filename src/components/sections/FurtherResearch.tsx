@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import './FurtherResearch.css'
 
 const fadeUp = (delay = 0) => ({
@@ -41,6 +42,9 @@ const DIRECTIONS = [
 ]
 
 export default function FurtherResearch() {
+  const beat  = useTypewriter(BEAT)
+  const close = useTypewriter("Every one of these next steps keeps the same idea Abba started with. Write down what is changing with time. Break time into small steps. Solve one small step at a time. The equations get longer, the physics gets richer, and the solver has to keep up, but the shape of the problem never really changes. That is what studying differential equations means: once you know the pattern, everything else is just adding more of it.")
+
   return (
     <div className="fr-page">
 
@@ -57,7 +61,7 @@ export default function FurtherResearch() {
 
       {/* Opening beat */}
       <motion.div className="fr-beat" {...fadeUp(0.05)}>
-        <p className="beat-line">{BEAT}</p>
+        <p className="beat-line">{beat.display}</p>
       </motion.div>
 
       {/* Directions */}
@@ -86,11 +90,7 @@ export default function FurtherResearch() {
       <motion.div className="fr-close" {...fadeUp(0.55)}>
         <span className="section-tag">TO CLOSE</span>
         <p className="beat-line" style={{ marginTop: '0.5rem' }}>
-          Every one of these next steps keeps the same idea Abba started with. Write down what is
-          changing with time. Break time into small steps. Solve one small step at a time. The
-          equations get longer, the physics gets richer, and the solver has to keep up, but the
-          shape of the problem never really changes. That is what studying differential equations
-          means: once you know the pattern, everything else is just adding more of it.
+          {close.display}
         </p>
       </motion.div>
 

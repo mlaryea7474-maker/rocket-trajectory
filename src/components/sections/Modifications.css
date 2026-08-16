@@ -4,6 +4,12 @@
   gap: 1.75rem;
 }
 
+.mods-beat {
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.35);
+  padding: 0.9rem 1.25rem;
+}
+
 .mods-beat .beat-line { }
 
 /* Two-card overview grid */
