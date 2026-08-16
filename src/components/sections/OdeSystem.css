@@ -89,16 +89,45 @@
   min-width: 280px;
 }
 
-.ode-lhs {
+.ode-fraction-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ode-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.ode-num {
   font-family: var(--font-mono);
-  font-size: 1.0rem;
-  color: rgba(220, 20, 60, 0.85);
+  font-size: 1.05rem;
+  color: rgba(220, 20, 60, 0.9);
   letter-spacing: 0.04em;
+  padding-bottom: 0.15rem;
+}
+
+.ode-bar {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: rgba(220, 20, 60, 0.6);
+}
+
+.ode-den {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: rgba(220, 20, 60, 0.9);
+  letter-spacing: 0.04em;
+  padding-top: 0.15rem;
 }
 
 .ode-rhs {
   font-family: var(--font-mono);
-  font-size: 1.0rem;
+  font-size: 1.05rem;
   color: rgba(245, 240, 230, 0.88);
   letter-spacing: 0.02em;
 }

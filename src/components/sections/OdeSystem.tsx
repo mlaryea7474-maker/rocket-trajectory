@@ -94,8 +94,14 @@ export default function OdeSystem() {
               >
                 <span className="ode-eq-index">{eq.index}</span>
                 <div className="ode-eq-math">
-                  <span className="ode-lhs">{eq.lhs}</span>
-                  <span className="ode-rhs">{eq.rhs}</span>
+                  <div className="ode-fraction-wrap">
+                    <div className="ode-fraction">
+                      <span className="ode-num">{eq.lhs.split('/')[0]}</span>
+                      <span className="ode-bar" />
+                      <span className="ode-den">{eq.lhs.split('/')[1]}</span>
+                    </div>
+                    <span className="ode-rhs">{eq.rhs}</span>
+                  </div>
                 </div>
                 <p className="ode-eq-meaning">{eq.meaning}</p>
               </motion.div>
