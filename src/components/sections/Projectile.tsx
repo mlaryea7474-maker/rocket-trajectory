@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import {
   ComposedChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine
@@ -73,7 +74,7 @@ const BEAT = "He started simple. He fired the projectile at 20 m/s and plotted t
 const CONCLUSION_TEXT = "He found 45° every time. Clean geometry, one equation, no computer needed. He had solved the simple model. Now for the actual rocket."
 
 function useStream(text: string, _trigger: boolean) {
-  return { display: text, done: true }
+  return useTypewriter(text)
 }
 
 const fadeUp = (delay = 0) => ({

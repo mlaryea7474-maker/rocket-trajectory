@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import './ModelExplanation.css'
 
 const BEAT = "The Saturn V model had a different goal entirely. He was not searching for an optimal angle. He was asking what actually happens during the first 150 seconds of powered flight in a rocket this large, and the only way to find out was to simulate it, one small step at a time."
@@ -38,7 +39,7 @@ const FORCES = [
 ]
 
 function useStream(text: string, _trigger: boolean) {
-  return { display: text, done: true }
+  return useTypewriter(text)
 }
 
 const fadeUp = (delay = 0) => ({

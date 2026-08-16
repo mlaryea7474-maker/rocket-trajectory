@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import './OdeSystem.css'
 
 const BEAT = "Before he could solve anything, Abba had to describe exactly what was happening to the rocket at every moment in flight. He wrote down three coupled differential equations: one tracking altitude, one tracking velocity, and one tracking mass. Everything that follows in this paper flows from these three lines."
@@ -37,7 +38,7 @@ const VARIABLES = [
 ]
 
 function useStream(text: string, _trigger: boolean) {
-  return { display: text, done: true }
+  return useTypewriter(text)
 }
 
 const fadeUp = (delay = 0) => ({

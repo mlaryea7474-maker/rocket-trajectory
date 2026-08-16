@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import './Introduction.css'
 
 /* ─── Mission briefing ─────────────────────────────────── */
@@ -16,7 +17,7 @@ const RIGHT_TEXT = "The Saturn V changed every assumption he had made. With mass
 const CONCLUSION = "What Abba showed is worth understanding. Not every problem has a neat formula for an answer. The simple projectile does: one equation, 45°, and you are done. The real rocket does not. Too many things are changing at the same time for any single formula to keep up. When that happens, you do not give up on the problem. You break time into tiny pieces, solve it one small step at a time, and let the answer build itself. That is what this paper is about."
 
 function useStream(text: string, _trigger: boolean) {
-  return { display: text, done: true }
+  return useTypewriter(text)
 }
 
 const fadeUp = (delay = 0) => ({

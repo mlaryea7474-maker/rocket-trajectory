@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTypewriter } from '../../hooks/useTypewriter'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer
@@ -47,7 +48,7 @@ const BEAT = "He then modeled the real rocket. The Saturn V: 2.9 million kilogra
 const CONCLUSION_TEXT = "He got three curves. Unlike the projectile, nothing here was predictable in advance. The mass was shrinking, the drag was shifting, every step changed the next. This is what numerical methods produce when the math has no clean answer. Next: how he built it."
 
 function useStream(text: string, _trigger: boolean) {
-  return { display: text, done: true }
+  return useTypewriter(text)
 }
 
 const fadeUp = (delay = 0) => ({
