@@ -135,7 +135,7 @@ export default function CreativeDepiction() {
               <animate attributeName="opacity" values="0.4;0.9;0.4" dur="0.2s" repeatCount="indefinite" />
             </path>
             {/* Motion along the RK4 path, loops forever */}
-            <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+            <animateMotion dur="7s" repeatCount="indefinite" rotate="0">
               <mpath href="#cd-rk4-anim-path" />
             </animateMotion>
           </g>
