@@ -30,6 +30,7 @@ export default function PromoVideo() {
           src="/promo.mp4"
           controls
           playsInline
+          preload="metadata"
         />
       </motion.div>
 
