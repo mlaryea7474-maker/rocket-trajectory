@@ -163,25 +163,37 @@ while t <= tMax
 end
 
 figure(4)
+plot(Time, Height, 'b', 'LineWidth', 2)
+hold on
 plot(Time_RK4, Height_RK4, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Altitude (km)')
-title('Saturn V Altitude vs Time, RK4 Method')
+title('Saturn V Altitude vs Time, Euler vs RK4')
+legend('Euler', 'RK4')
 grid on
+hold off
 
 figure(5)
+plot(Time, Velocity, 'b', 'LineWidth', 2)
+hold on
 plot(Time_RK4, Velocity_RK4, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Velocity (m/s)')
-title('Saturn V Velocity vs Time, RK4 Method')
+title('Saturn V Velocity vs Time, Euler vs RK4')
+legend('Euler', 'RK4')
 grid on
+hold off
 
 figure(6)
+plot(Time, Acceleration, 'b', 'LineWidth', 2)
+hold on
 plot(Time_RK4, Acceleration_RK4, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Acceleration (m/s²)')
-title('Saturn V Acceleration vs Time, RK4 Method')
-grid on`
+title('Saturn V Acceleration vs Time, Euler vs RK4')
+legend('Euler', 'RK4')
+grid on
+hold off`
 
 function renderHighlighted(code: string) {
   const lines = code.split('\n')
