@@ -1,0 +1,103 @@
+.cd-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* The SVG canvas */
+.cd-canvas {
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.3);
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cd-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+}
+
+/* Trajectory draw-in animation */
+.cd-rk4-path {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: cd-draw 2.2s ease-out 0.3s forwards;
+  filter: drop-shadow(0 0 4px rgba(220, 20, 60, 0.5));
+}
+
+.cd-euler-path {
+  stroke-dashoffset: 0;
+  animation: cd-fade 1.5s ease-in 1.8s forwards;
+  opacity: 0;
+}
+
+@keyframes cd-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cd-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Rocket subtle shimmer */
+.cd-rocket {
+  animation: cd-rocket-glow 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(220, 20, 60, 0.35));
+}
+
+@keyframes cd-rocket-glow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(220,20,60,0.3)); }
+  50%     { filter: drop-shadow(0 0 10px rgba(220,20,60,0.6)); }
+}
+
+/* Flame flicker */
+.cd-flame {
+  transform-origin: 10px 42px;
+  animation: cd-flame-flick 0.4s ease-in-out infinite alternate;
+}
+
+.cd-flame-inner {
+  transform-origin: 10px 42px;
+  animation: cd-flame-flick 0.28s ease-in-out infinite alternate;
+}
+
+@keyframes cd-flame-flick {
+  0%   { transform: scaleY(0.95); opacity: 0.75; }
+  100% { transform: scaleY(1.1);  opacity: 1; }
+}
+
+/* Caption */
+.cd-caption {
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.25);
+  border-left: 3px solid rgba(220, 20, 60, 0.7);
+  padding: 1.1rem 1.3rem;
+}
+
+.cd-cap-header {
+  margin-bottom: 0.75rem;
+}
+
+.cd-cap-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cd-cap-body p {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+}
+
+.cd-cap-lead {
+  color: var(--red);
+  font-weight: 500;
+  margin-right: 0.4rem;
+}

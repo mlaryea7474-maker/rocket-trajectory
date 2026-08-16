@@ -1,0 +1,209 @@
+.mods-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.mods-beat .beat-line { }
+
+/* Two-card overview grid */
+.mods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .mods-grid { grid-template-columns: 1fr; }
+}
+
+.mod-card {
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.3);
+  border-left: 3px solid rgba(220, 20, 60, 0.7);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mod-tag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--red);
+  letter-spacing: 0.15em;
+}
+
+.mod-title {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mod-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mod-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.15em;
+}
+
+.mod-text {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.62);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+.mod-eq {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(220, 20, 60, 0.85);
+  background: rgba(220, 20, 60, 0.06);
+  border-left: 2px solid rgba(220, 20, 60, 0.5);
+  padding: 0.55rem 0.75rem;
+  letter-spacing: 0.02em;
+  margin-top: 0.25rem;
+}
+
+/* Deep dive blocks */
+.mods-deep {
+  background: #060608;
+  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mods-deep-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.mods-deep-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.05em;
+}
+
+/* RK4 step list */
+.rk4-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.rk4-row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid rgba(220, 20, 60, 0.25);
+}
+
+.rk4-row.final {
+  background: rgba(220, 20, 60, 0.08);
+  border-left-color: var(--red);
+}
+
+.rk4-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--red);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.rk4-code {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.02em;
+}
+
+.rk4-note {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 700px) {
+  .rk4-row { grid-template-columns: 50px 1fr; }
+  .rk4-note { grid-column: 1 / -1; margin-top: 0.15rem; }
+}
+
+/* Error comparison strip */
+.mods-error-strip {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.err-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.err-arrow {
+  font-family: var(--font-mono);
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 1rem;
+}
+
+/* Gravity strip */
+.grav-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 800px) {
+  .grav-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+.grav-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid rgba(220, 20, 60, 0.25);
+}
+
+.grav-note {
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  color: rgba(255, 255, 255, 0.28);
+  letter-spacing: 0.04em;
+  margin-top: 0.15rem;
+}
+
+/* Bridge card */
+.mods-bridge {
+  background: #060608;
+  border: 1px solid rgba(220, 20, 60, 0.2);
+  padding: 1rem 1.25rem;
+}

@@ -11,7 +11,10 @@ import SaturnV from './components/sections/SaturnV'
 import ModelExplanation from './components/sections/ModelExplanation'
 import MatlabCode from './components/sections/MatlabCode'
 import AfricaAdvantage from './components/sections/AfricaAdvantage'
-import Placeholder from './components/sections/Placeholder'
+import Modifications from './components/sections/Modifications'
+import Results from './components/sections/Results'
+import CreativeDepiction from './components/sections/CreativeDepiction'
+import FurtherResearch from './components/sections/FurtherResearch'
 import './App.css'
 
 type Theme = 'light' | 'dark'
@@ -53,14 +56,17 @@ export default function App() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {activeSection === 'introduction' && <Introduction />}
-                  {activeSection === 'ode-system' && <OdeSystem />}
-                  {activeSection === 'projectile' && <Projectile />}
-                  {activeSection === 'saturn-v' && <SaturnV />}
-                  {activeSection === 'model' && <ModelExplanation />}
-                  {activeSection === 'references' && <MatlabCode />}
+                  {activeSection === 'introduction'     && <Introduction />}
+                  {activeSection === 'ode-system'       && <OdeSystem />}
+                  {activeSection === 'projectile'       && <Projectile />}
+                  {activeSection === 'saturn-v'         && <SaturnV />}
+                  {activeSection === 'model'            && <ModelExplanation />}
+                  {activeSection === 'references'       && <MatlabCode />}
+                  {activeSection === 'modifications'    && <Modifications />}
+                  {activeSection === 'results'          && <Results />}
+                  {activeSection === 'creative'         && <CreativeDepiction />}
+                  {activeSection === 'further-research' && <FurtherResearch />}
                   {activeSection === 'africa-advantage' && <AfricaAdvantage />}
-                  {activeSection !== 'introduction' && activeSection !== 'ode-system' && activeSection !== 'projectile' && activeSection !== 'saturn-v' && activeSection !== 'model' && activeSection !== 'references' && activeSection !== 'africa-advantage' && <Placeholder id={activeSection} />}
                 </motion.div>
               </AnimatePresence>
             </main>

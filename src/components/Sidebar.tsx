@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal } from 'lucide-react'
+import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass } from 'lucide-react'
 
 function CubeIcon() {
   return (
@@ -17,16 +17,25 @@ function CubeIcon() {
 }
 import './Sidebar.css'
 
-export type Section = 'introduction' | 'ode-system' | 'projectile' | 'saturn-v' | 'model' | 'references' | 'africa-advantage'
+export type Section =
+  | 'introduction' | 'ode-system' | 'projectile' | 'saturn-v'
+  | 'model' | 'references'
+  | 'modifications' | 'results'
+  | 'creative' | 'further-research'
+  | 'africa-advantage'
 
 const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: string }[] = [
-  { id: 'introduction',     label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
-  { id: 'ode-system',       label: 'ODE System',         icon: <Sigma size={16} />,       sub: 'The Equations' },
-  { id: 'projectile',       label: 'Projectile Model',   icon: <TrendingUp size={16} />,  sub: 'Fig. 3 · Trajectory Fan' },
-  { id: 'saturn-v',         label: 'Saturn V',           icon: <Rocket size={16} />,      sub: 'Fig. 5 · Euler Sim' },
-  { id: 'model',            label: 'Model Explanation',  icon: <Wrench size={16} />,      sub: 'Euler · Forces · Sensitivity' },
-  { id: 'references',       label: 'MATLAB Code',        icon: <Terminal size={16} />,    sub: 'Euler Loop · Launch from Ghana' },
-  { id: 'africa-advantage', label: 'Africa Advantage',   icon: <Rocket size={16} />,      sub: 'Launch Sites · Free Velocity' },
+  { id: 'introduction',      label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
+  { id: 'ode-system',        label: 'ODE System',         icon: <Sigma size={16} />,       sub: 'The Equations' },
+  { id: 'projectile',        label: 'Projectile Model',   icon: <TrendingUp size={16} />,  sub: "Abba's Fig. 3" },
+  { id: 'saturn-v',          label: 'Saturn V',           icon: <Rocket size={16} />,      sub: "Abba's Fig. 5" },
+  { id: 'model',             label: 'Model Explanation',  icon: <Wrench size={16} />,      sub: "Euler · Forces" },
+  { id: 'references',        label: 'MATLAB Code',        icon: <Terminal size={16} />,    sub: "Abba's Replication" },
+  { id: 'modifications',     label: 'Our Modifications',  icon: <GitBranch size={16} />,   sub: 'RK4 · g(h) upgrade' },
+  { id: 'results',           label: 'Our Results',        icon: <LineChart size={16} />,   sub: 'Euler vs RK4' },
+  { id: 'creative',          label: 'Creative Depiction', icon: <Palette size={16} />,     sub: 'Visual project story' },
+  { id: 'further-research',  label: 'Further Research',   icon: <Compass size={16} />,     sub: 'Next questions' },
+  { id: 'africa-advantage',  label: 'Africa Advantage',   icon: <Rocket size={16} />,      sub: 'Launch site velocity' },
 ]
 
 interface Props {
