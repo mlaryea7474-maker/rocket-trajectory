@@ -35,7 +35,6 @@ const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: strin
   { id: 'results',           label: 'Our Results',        icon: <LineChart size={16} />,   sub: 'Euler vs RK4' },
   { id: 'creative',          label: 'Creative Depiction', icon: <Palette size={16} />,     sub: 'Visual project story' },
   { id: 'further-research',  label: 'Further Research',   icon: <Compass size={16} />,     sub: 'Next questions' },
-  { id: 'africa-advantage',  label: 'Africa Advantage',   icon: <Rocket size={16} />,      sub: 'Launch site velocity' },
 ]
 
 interface Props {
