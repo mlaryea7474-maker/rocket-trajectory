@@ -96,12 +96,91 @@ ylabel('Velocity (m/s)')
 title('Saturn V Velocity vs Time, Replication of Abba (2018)')
 grid on
 
-%%Figure 3: Acceleration vs Time 
+%%Figure 3: Acceleration vs Time
 figure(3)
 plot(Time, Acceleration, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Acceleration (m/s²)')
 title('Saturn V Acceleration vs Time, Replication of Abba (2018)')
+grid on
+
+%% OUR MODIFICATIONS: RK4 with Variable Gravity
+
+R = 6371000;
+
+h = 0;
+v = 0;
+m = m0;
+t = 0;
+
+Time_RK4 = [];
+Height_RK4 = [];
+Velocity_RK4 = [];
+Acceleration_RK4 = [];
+
+while t <= tMax
+    rho = rho0 * exp(-h / Hs);
+    g = g0 * (R / (R + h))^2;
+    D = 0.5 * rho * Cd * A * v * abs(v);
+
+    k1_h = v;
+    k1_v = (T - D) / m - g;
+    k1_m = -massFlow;
+
+    rho2 = rho0 * exp(-(h + dt * k1_h / 2) / Hs);
+    g2 = g0 * (R / (R + h + dt * k1_h / 2))^2;
+    D2 = 0.5 * rho2 * Cd * A * (v + dt * k1_v / 2) * abs(v + dt * k1_v / 2);
+
+    k2_h = v + dt * k1_v / 2;
+    k2_v = (T - D2) / (m + dt * k1_m / 2) - g2;
+    k2_m = -massFlow;
+
+    D3 = 0.5 * rho2 * Cd * A * (v + dt * k2_v / 2) * abs(v + dt * k2_v / 2);
+
+    k3_h = v + dt * k2_v / 2;
+    k3_v = (T - D3) / (m + dt * k2_m / 2) - g2;
+    k3_m = -massFlow;
+
+    rho4 = rho0 * exp(-(h + dt * k3_h) / Hs);
+    g4 = g0 * (R / (R + h + dt * k3_h))^2;
+    D4 = 0.5 * rho4 * Cd * A * (v + dt * k3_v) * abs(v + dt * k3_v);
+
+    k4_h = v + dt * k3_v;
+    k4_v = (T - D4) / (m + dt * k3_m) - g4;
+    k4_m = -massFlow;
+
+    h = h + (dt / 6) * (k1_h + 2*k2_h + 2*k3_h + k4_h);
+    v = v + (dt / 6) * (k1_v + 2*k2_v + 2*k3_v + k4_v);
+    m = m + (dt / 6) * (k1_m + 2*k2_m + 2*k3_m + k4_m);
+    m = max(m, m0 - massFlow * tMax);
+
+    Time_RK4(end+1) = t;
+    Height_RK4(end+1) = h / 1000;
+    Velocity_RK4(end+1) = v;
+    Acceleration_RK4(end+1) = (T - D4) / m - g4;
+
+    t = t + dt;
+end
+
+figure(4)
+plot(Time_RK4, Height_RK4, 'r', 'LineWidth', 2)
+xlabel('Time (s)')
+ylabel('Altitude (km)')
+title('Saturn V Altitude vs Time, RK4 Method')
+grid on
+
+figure(5)
+plot(Time_RK4, Velocity_RK4, 'r', 'LineWidth', 2)
+xlabel('Time (s)')
+ylabel('Velocity (m/s)')
+title('Saturn V Velocity vs Time, RK4 Method')
+grid on
+
+figure(6)
+plot(Time_RK4, Acceleration_RK4, 'r', 'LineWidth', 2)
+xlabel('Time (s)')
+ylabel('Acceleration (m/s²)')
+title('Saturn V Acceleration vs Time, RK4 Method')
 grid on`
 
 function renderHighlighted(code: string) {
