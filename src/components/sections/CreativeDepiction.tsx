@@ -127,20 +127,31 @@ export default function CreativeDepiction() {
             <text x="0" y="74" fill="rgba(220,20,60,0.75)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.15em">THE ODE SYSTEM</text>
           </g>
 
-          {/* RK4 four-slope diagram bottom left */}
-          <g transform="translate(50 300)" className="cd-rk4-diagram">
-            <text x="0" y="0" fill="rgba(220,20,60,0.75)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.15em">RK4 · FOUR SLOPES</text>
-            <line x1="0" y1="20" x2="140" y2="20" stroke="rgba(255,255,255,0.15)" strokeWidth="0.8" />
-            {/* k1..k4 as small angled ticks */}
-            <line x1="10"  y1="20" x2="30"  y2="10" stroke="#dc143c" strokeWidth="1.6" />
-            <text x="14" y="34" fill="rgba(220,20,60,0.6)" fontSize="8" fontFamily="JetBrains Mono">k₁</text>
-            <line x1="45"  y1="20" x2="65"  y2="6"  stroke="#dc143c" strokeWidth="1.6" />
-            <text x="49" y="34" fill="rgba(220,20,60,0.6)" fontSize="8" fontFamily="JetBrains Mono">k₂</text>
-            <line x1="80"  y1="20" x2="100" y2="4"  stroke="#dc143c" strokeWidth="1.6" />
-            <text x="84" y="34" fill="rgba(220,20,60,0.6)" fontSize="8" fontFamily="JetBrains Mono">k₃</text>
-            <line x1="115" y1="20" x2="135" y2="2"  stroke="#dc143c" strokeWidth="1.6" />
-            <text x="119" y="34" fill="rgba(220,20,60,0.6)" fontSize="8" fontFamily="JetBrains Mono">k₄</text>
+          {/* Endpoints — where each method thinks the rocket ended up */}
+          {/* RK4 endpoint at (260, 40): small rocket + "RK4 says here" */}
+          <g transform="translate(250 22)" className="cd-endpoint-rk4">
+            {/* small rocket */}
+            <rect x="0" y="0" width="14" height="26" fill="url(#cdrocket)" stroke="#dc143c" strokeWidth="1" rx="1.5" />
+            <path d="M 0 0 L 7 -9 L 14 0 Z" fill="rgba(220,20,60,0.75)" stroke="#dc143c" strokeWidth="1" />
+            <path d="M 0 20 L -5 30 L 0 28 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="0.7" />
+            <path d="M 14 20 L 19 30 L 14 28 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="0.7" />
+            <circle cx="7" cy="8" r="2" fill="rgba(6,6,10,0.9)" stroke="#dc143c" strokeWidth="0.6" />
+            {/* endpoint dot on trajectory line */}
+            <circle cx="10" cy="18" r="4" fill="rgba(220,20,60,0.15)" />
+            <circle cx="10" cy="18" r="2" fill="#dc143c" />
           </g>
+          <text x="230" y="76" fill="#dc143c" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.08em" textAnchor="middle">RK4 says: here</text>
+
+          {/* Euler endpoint at (300, 40): dashed circle + "Euler says here" */}
+          <g transform="translate(300 40)" className="cd-endpoint-euler">
+            <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(245,240,230,0.55)" strokeWidth="1" strokeDasharray="2 2" />
+            <circle cx="0" cy="0" r="2" fill="rgba(245,240,230,0.6)" />
+          </g>
+          <text x="305" y="76" fill="rgba(245,240,230,0.6)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.08em">Euler says: here</text>
+
+          {/* Gap indicator between the two endpoints */}
+          <line x1="266" y1="40" x2="292" y2="40" stroke="rgba(220,20,60,0.4)" strokeWidth="0.8" strokeDasharray="2 2" />
+          <text x="279" y="35" fill="rgba(220,20,60,0.7)" fontSize="8" fontFamily="JetBrains Mono" textAnchor="middle" letterSpacing="0.08em">the gap</text>
 
           {/* Altitude scale on the left */}
           <g transform="translate(50 60)">
@@ -173,21 +184,22 @@ export default function CreativeDepiction() {
           </p>
           <p>
             <span className="cd-cap-lead">Two lines going up:</span>
-            the solid red curve is the path our RK4 method traces out. The dashed white curve is the
-            path Abba's Euler method traces out. Same rocket, same three equations, but two different
-            ways of stepping through time — and they end up in noticeably different places.
+            the solid red curve is the path RK4 traces out. The dashed white curve is the path
+            Abba's Euler method traces out. Same rocket, same three equations — but two different
+            ways of stepping through time.
+          </p>
+          <p>
+            <span className="cd-cap-lead">Two rockets at the top:</span>
+            the small red rocket is where RK4 says the Saturn V ends up after 150 seconds. The dashed
+            white circle right next to it is where Euler says it ends up. Same launch, same fuel, but
+            the two methods disagree — and the little dashed line labelled "the gap" is exactly how
+            far apart they are. That gap is the whole point of picking a better solver.
           </p>
           <p>
             <span className="cd-cap-lead">On the right:</span>
             the three equations that decide everything. Height changes at the rate of speed. Speed
             depends on the thrust pushing up, the drag pushing down, and gravity pulling down, all
             divided by whatever mass is left. Mass drops as fuel burns.
-          </p>
-          <p>
-            <span className="cd-cap-lead">In the bottom-left corner:</span>
-            a small sketch of what makes RK4 different. Instead of looking at how things are changing
-            once per step like Euler does, RK4 takes four looks in each step and averages them. Those
-            four ticks are the four looks.
           </p>
         </div>
       </motion.div>
