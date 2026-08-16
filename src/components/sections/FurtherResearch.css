@@ -48,15 +48,15 @@
 
 .fr-item-title {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.98rem;
+  color: rgba(245, 240, 230, 0.88);
   letter-spacing: 0.02em;
   font-weight: 500;
 }
 
 .fr-item-diff {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.72rem;
   color: var(--red);
   letter-spacing: 0.12em;
   padding: 0.2rem 0.55rem;
@@ -66,8 +66,8 @@
 
 .fr-item-body {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.86rem;
+  color: rgba(245, 240, 230, 0.6);
   line-height: 1.75;
   letter-spacing: 0.02em;
   margin-left: calc(32px + 1rem);

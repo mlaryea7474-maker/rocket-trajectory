@@ -12,8 +12,8 @@
 
 .beat-line {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.94rem;
+  color: rgba(245, 240, 230, 0.78);
   line-height: 1.8;
   letter-spacing: 0.01em;
 }
@@ -48,7 +48,7 @@
 
 .chart-tag {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.76rem;
   color: var(--red);
   letter-spacing: 0.2em;
   border: 1px solid rgba(220, 20, 60, 0.4);
@@ -58,8 +58,8 @@
 
 .ode-eq-sub {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.28);
+  font-size: 0.94rem;
+  color: rgba(245, 240, 230, 0.28);
   letter-spacing: 0.05em;
 }
 
@@ -76,7 +76,7 @@
 
 .ode-eq-index {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.76rem;
   color: rgba(220, 20, 60, 0.4);
   letter-spacing: 0.1em;
   padding-top: 2px;
@@ -91,21 +91,21 @@
 
 .ode-lhs {
   font-family: var(--font-mono);
-  font-size: 0.88rem;
+  font-size: 1.0rem;
   color: rgba(220, 20, 60, 0.85);
   letter-spacing: 0.04em;
 }
 
 .ode-rhs {
   font-family: var(--font-mono);
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.0rem;
+  color: rgba(245, 240, 230, 0.88);
   letter-spacing: 0.02em;
 }
 
 .ode-eq-meaning {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.96rem;
+  color: rgba(245, 240, 230, 0.5);
   line-height: 1.7;
   padding-top: 2px;
 }
@@ -136,7 +136,7 @@
 }
 
 .ode-var-def {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
   margin-bottom: 0.25rem;
   line-height: 1.4;
@@ -144,7 +144,7 @@
 
 .ode-var-unit {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.94rem;
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
@@ -152,14 +152,14 @@
 .ode-bridge { padding: 1.25rem 1.5rem; }
 
 .ode-bridge-text {
-  font-size: 0.88rem;
+  font-size: 1.0rem;
   color: var(--text-secondary);
   line-height: 1.8;
 }
 
 .ode-bridge-next {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   color: var(--red);
   margin-top: 0.85rem;
   letter-spacing: 0.04em;

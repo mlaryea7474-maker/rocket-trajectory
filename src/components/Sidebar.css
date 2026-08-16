@@ -62,7 +62,7 @@
 
 .sidebar-subtitle {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
 }
@@ -123,7 +123,7 @@
 }
 
 .nav-label {
-  font-size: 0.88rem;
+  font-size: 1.0rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -131,14 +131,14 @@
 
 .nav-sub {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.78rem;
   color: var(--text-faint);
   letter-spacing: 0.04em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.nav-btn.active .nav-sub { color: rgba(255,255,255,0.55); }
+.nav-btn.active .nav-sub { color: rgba(245,240,230,0.55); }
 
 .nav-indicator {
   position: absolute;
@@ -160,7 +160,7 @@
 
 .footer-cite {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   letter-spacing: 0.06em;
   line-height: 1.7;

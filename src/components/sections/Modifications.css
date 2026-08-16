@@ -29,7 +29,7 @@
 
 .mod-tag {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.76rem;
   color: var(--red);
   letter-spacing: 0.15em;
 }
@@ -37,7 +37,7 @@
 .mod-title {
   font-family: var(--font-mono);
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(245, 240, 230, 0.9);
   letter-spacing: 0.02em;
   font-weight: 500;
   line-height: 1.4;
@@ -51,22 +51,22 @@
 
 .mod-label {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.88rem;
+  color: rgba(245, 240, 230, 0.35);
   letter-spacing: 0.15em;
 }
 
 .mod-text {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.86rem;
+  color: rgba(245, 240, 230, 0.62);
   line-height: 1.7;
   letter-spacing: 0.02em;
 }
 
 .mod-eq {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   color: rgba(220, 20, 60, 0.85);
   background: rgba(220, 20, 60, 0.06);
   border-left: 2px solid rgba(220, 20, 60, 0.5);
@@ -78,7 +78,7 @@
 /* Deep dive blocks */
 .mods-deep {
   background: #060608;
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(245, 240, 230, 0.06);
   padding: 1.25rem 1.4rem;
   display: flex;
   flex-direction: column;
@@ -95,8 +95,8 @@
 
 .mods-deep-sub {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.78rem;
+  color: rgba(245, 240, 230, 0.3);
   letter-spacing: 0.05em;
 }
 
@@ -114,7 +114,7 @@
   align-items: center;
   gap: 0.85rem;
   padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(245, 240, 230, 0.02);
   border-left: 2px solid rgba(220, 20, 60, 0.25);
 }
 
@@ -125,7 +125,7 @@
 
 .rk4-label {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.98rem;
   color: var(--red);
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -133,15 +133,15 @@
 
 .rk4-code {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.88rem;
+  color: rgba(245, 240, 230, 0.75);
   letter-spacing: 0.02em;
 }
 
 .rk4-note {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.76rem;
+  color: rgba(245, 240, 230, 0.35);
   letter-spacing: 0.03em;
 }
 
@@ -157,7 +157,7 @@
   gap: 1.5rem;
   flex-wrap: wrap;
   padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(245, 240, 230, 0.05);
 }
 
 .err-block {
@@ -168,7 +168,7 @@
 
 .err-arrow {
   font-family: var(--font-mono);
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(245, 240, 230, 0.2);
   font-size: 1rem;
 }
 
@@ -189,14 +189,14 @@
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.6rem 0.75rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(245, 240, 230, 0.02);
   border-left: 2px solid rgba(220, 20, 60, 0.25);
 }
 
 .grav-note {
   font-family: var(--font-mono);
-  font-size: 0.54rem;
-  color: rgba(255, 255, 255, 0.28);
+  font-size: 0.88rem;
+  color: rgba(245, 240, 230, 0.28);
   letter-spacing: 0.04em;
   margin-top: 0.15rem;
 }
