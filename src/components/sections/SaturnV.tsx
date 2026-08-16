@@ -100,7 +100,7 @@ export default function SaturnV() {
         </p>
       </motion.div>
 
-      {/* Chart 1 — Altitude */}
+      {/* Chart 1, Altitude */}
       <AnimatePresence>
         {true && (
           <motion.div
@@ -132,7 +132,7 @@ export default function SaturnV() {
         )}
       </AnimatePresence>
 
-      {/* Chart 2 — Velocity */}
+      {/* Chart 2, Velocity */}
       <AnimatePresence>
         {true && (
           <motion.div
@@ -164,7 +164,7 @@ export default function SaturnV() {
         )}
       </AnimatePresence>
 
-      {/* Chart 3 — Acceleration */}
+      {/* Chart 3, Acceleration */}
       <AnimatePresence>
         {true && (
           <motion.div

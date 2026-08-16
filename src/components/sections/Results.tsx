@@ -230,7 +230,7 @@ export default function Results() {
         <motion.div key="vel" className="chart-card" {...fadeUp(0.25)}>
           <div className="chart-label">
             <span className="chart-tag">SPEED OVER TIME</span>
-            <span className="chart-title">Small errors at every step pile up — the longer the flight, the wider the gap</span>
+            <span className="chart-title">Small errors at every step pile up. The longer the flight, the wider the gap</span>
           </div>
           <ResponsiveContainer width="100%" height={230}>
             <LineChart data={merged} margin={{ top: 8, right: 20, bottom: 22, left: 12 }}>
@@ -296,13 +296,13 @@ export default function Results() {
             <span className="interp-tag">Big steps (2 seconds):</span>
             Euler falls apart. It might over-shoot, wobble, or diverge completely. RK4 stays calm at
             the same step size because it looks four times per step instead of once. This is the whole
-            point of using a better method — it keeps working when the simple one gives up.
+            point of using a better method. It keeps working when the simple one gives up.
           </p>
           <p>
             <span className="interp-tag">Switching gravity:</span>
             when you turn on real height-dependent gravity, the final speed drops by a few metres per
             second. Small, but it matters. It means the rocket does not have to fight as hard against
-            gravity near the top of its climb — which is what actually happens in real flight.
+            gravity near the top of its climb, which is what actually happens in real flight.
           </p>
         </div>
       </motion.div>

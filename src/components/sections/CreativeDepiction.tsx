@@ -17,7 +17,7 @@ export default function CreativeDepiction() {
           <h2 className="section-h2">
             <span className="bracket">[</span>CREATIVE DEPICTION<span className="bracket">]</span>
           </h2>
-          <p className="section-sub">The whole project in one picture — the rocket, the equations, and both paths it can take</p>
+          <p className="section-sub">The whole project in one picture: the rocket, the equations, and both paths it can take</p>
         </div>
         <span className="section-tag">THE PROJECT, DRAWN</span>
       </motion.div>
@@ -74,7 +74,7 @@ export default function CreativeDepiction() {
           {/* Two ascent trajectories: Euler (dashed, drifted) vs RK4 (solid, correct) */}
           {/* Both go from launchpad (400, 460) upward */}
 
-          {/* RK4 trajectory — smooth, accurate */}
+          {/* RK4 trajectory, smooth and accurate */}
           <path
             d="M 400 460 Q 380 320 340 180 T 260 40"
             fill="none"
@@ -84,7 +84,7 @@ export default function CreativeDepiction() {
             className="cd-rk4-path"
           />
 
-          {/* Euler trajectory — dashed, drifts a bit off */}
+          {/* Euler trajectory, dashed, drifts a bit off */}
           <path
             d="M 400 460 Q 386 320 356 180 T 300 40"
             fill="none"
@@ -127,7 +127,7 @@ export default function CreativeDepiction() {
             <text x="0" y="74" fill="rgba(220,20,60,0.75)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.15em">THE ODE SYSTEM</text>
           </g>
 
-          {/* Endpoints — where each method thinks the rocket ended up */}
+          {/* Endpoints, where each method thinks the rocket ended up */}
           {/* RK4 endpoint at (260, 40): small rocket + "RK4 says here" */}
           <g transform="translate(250 22)" className="cd-endpoint-rk4">
             {/* small rocket */}
@@ -152,6 +152,18 @@ export default function CreativeDepiction() {
           {/* Gap indicator between the two endpoints */}
           <line x1="266" y1="40" x2="292" y2="40" stroke="rgba(220,20,60,0.4)" strokeWidth="0.8" strokeDasharray="2 2" />
           <text x="279" y="35" fill="rgba(220,20,60,0.7)" fontSize="8" fontFamily="JetBrains Mono" textAnchor="middle" letterSpacing="0.08em">the gap</text>
+
+          {/* Real-world consequence callout, anchored bottom-left of the SVG */}
+          <g transform="translate(50 300)" className="cd-realworld">
+            <text x="0" y="0" fill="rgba(220,20,60,0.75)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.15em">IN REAL LIFE</text>
+            <line x1="0" y1="8" x2="180" y2="8" stroke="rgba(220,20,60,0.35)" strokeWidth="0.8" />
+            <text x="0" y="26"  fill="rgba(245,240,230,0.75)" fontSize="10" fontFamily="JetBrains Mono">that gap is where the</text>
+            <text x="0" y="42"  fill="rgba(245,240,230,0.75)" fontSize="10" fontFamily="JetBrains Mono">rocket physically ends up.</text>
+            <text x="0" y="66"  fill="rgba(245,240,230,0.55)" fontSize="9"  fontFamily="JetBrains Mono">a wrong solver means</text>
+            <text x="0" y="80"  fill="rgba(245,240,230,0.55)" fontSize="9"  fontFamily="JetBrains Mono">the satellite misses orbit,</text>
+            <text x="0" y="94"  fill="rgba(245,240,230,0.55)" fontSize="9"  fontFamily="JetBrains Mono">the lander misses the moon,</text>
+            <text x="0" y="108" fill="rgba(245,240,230,0.55)" fontSize="9"  fontFamily="JetBrains Mono">the probe misses mars.</text>
+          </g>
 
           {/* Altitude scale on the left */}
           <g transform="translate(50 60)">
@@ -178,22 +190,33 @@ export default function CreativeDepiction() {
         <div className="cd-cap-body">
           <p>
             <span className="cd-cap-lead">At the bottom:</span>
-            the Saturn V lifts off from the pad — the same rocket Abba wrote about, 2.9 million
+            the Saturn V lifts off from the pad, the same rocket Abba wrote about, 2.9 million
             kilograms sitting on 34 million Newtons of thrust, burning 13,000 kilograms of fuel every
             second.
           </p>
           <p>
             <span className="cd-cap-lead">Two lines going up:</span>
             the solid red curve is the path RK4 traces out. The dashed white curve is the path
-            Abba's Euler method traces out. Same rocket, same three equations — but two different
+            Abba's Euler method traces out. Same rocket, same three equations, but two different
             ways of stepping through time.
           </p>
           <p>
             <span className="cd-cap-lead">Two rockets at the top:</span>
             the small red rocket is where RK4 says the Saturn V ends up after 150 seconds. The dashed
             white circle right next to it is where Euler says it ends up. Same launch, same fuel, but
-            the two methods disagree — and the little dashed line labelled "the gap" is exactly how
-            far apart they are. That gap is the whole point of picking a better solver.
+            the two methods disagree, and the little dashed line labelled "the gap" is exactly how
+            far apart they are.
+          </p>
+          <p>
+            <span className="cd-cap-lead">Why the gap actually matters:</span>
+            this is not just a number on a chart. That gap is a real distance in the sky. If you were
+            actually launching this rocket and your guidance computer used Abba's Euler method to
+            decide when to cut the engines, the rocket would physically end up in the dashed-white
+            spot instead of the red one. A few metres per second of error at engine cutoff turns into
+            hundreds of kilometres of missed target by the time the rocket coasts to where it is
+            going. A satellite misses the orbit it was aiming for. A lander misses the moon. A probe
+            misses Mars. This is why picking the right way to step through time is not an academic
+            detail. It is the difference between hitting the target and missing it entirely.
           </p>
           <p>
             <span className="cd-cap-lead">On the right:</span>

@@ -27,7 +27,7 @@ const MODS = [
     tag:  'CHANGE 02',
     title: 'Gravity that actually changes with height',
     what:  "Abba held gravity fixed at 9.81 m/s² for the whole flight. We used the real physical law: gravity gets weaker the higher the rocket climbs, following an inverse square.",
-    why:   "Every step of the simulation asks the same question — thrust minus drag minus gravity, divided by mass. If the gravity number is slightly wrong, so is the acceleration, so is the velocity, so is the height at the next step. Using real gravity keeps every step honest.",
+    why:   "Every step of the simulation asks the same question: thrust minus drag minus gravity, divided by mass. If the gravity number is slightly wrong, so is the acceleration, so is the velocity, so is the height at the next step. Using real gravity keeps every step honest.",
     equation: 'g(h) = g₀ · (R / (R + h))²   ·   R = 6,371,000 m',
   },
 ]
@@ -120,7 +120,7 @@ export default function Modifications() {
                 >
                   <span className="rk4-label">{s.label}</span>
                   <code className="rk4-code">= {s.code}</code>
-                  <span className="rk4-note">— {s.note}</span>
+                  <span className="rk4-note">· {s.note}</span>
                 </motion.div>
               ))}
             </div>

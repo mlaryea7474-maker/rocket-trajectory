@@ -35,7 +35,7 @@ function propellantSaved(deltaV: number) {
   return Math.round(M0 * (1 - Math.exp(-deltaV / (ISP * G0))))
 }
 
-// Smooth cosine curve data — 0.5° steps so 28.5° (Cape Canaveral) is exact
+// Smooth cosine curve data, 0.5° steps so 28.5° (Cape Canaveral) is exact
 const CURVE_DATA = Array.from({ length: 181 }, (_, i) => ({
   lat: i * 0.5,
   vrot: parseFloat(vrot(i * 0.5).toFixed(2)),
@@ -57,14 +57,14 @@ function siteExplanation(site: { name: string; country: string; lat: number; con
   const spaceXVrot = vrot(28.5)
 
   if (isAfrica) {
-    return `${site.name}, ${site.country} sits at ${site.lat}°N — only ${site.lat.toFixed(1)} degrees from the equator. ` +
+    return `${site.name}, ${site.country} sits at ${site.lat}°N, only ${site.lat.toFixed(1)} degrees from the equator. ` +
       `At this latitude Earth's rotation delivers ${myVrot.toFixed(1)} m/s of free velocity to every rocket that launches here. ` +
       `SpaceX at Cape Canaveral collects ${spaceXVrot.toFixed(1)} m/s from its 28.5° position. ` +
-      `The gap is ${advSpaceX.toFixed(1)} m/s — velocity that would otherwise have to come from burning propellant. ` +
+      `The gap is ${advSpaceX.toFixed(1)} m/s, velocity that would otherwise have to come from burning propellant. ` +
       `For an 80,000 kg rocket at Isp = 311 s, that translates to approximately ${propSaved.toLocaleString()} kg of propellant saved per launch.`
   } else {
     const behind = (-advSpaceX).toFixed(1)
-    return `${site.name}, ${site.country} lies at ${site.lat}° — ${(site.lat - 28.5).toFixed(1)}° further from the equator than Cape Canaveral. ` +
+    return `${site.name}, ${site.country} lies at ${site.lat}°, ${(site.lat - 28.5).toFixed(1)}° further from the equator than Cape Canaveral. ` +
       `Earth's rotation provides ${myVrot.toFixed(1)} m/s here, compared to ${spaceXVrot.toFixed(1)} m/s at the SpaceX launch site. ` +
       `That is ${behind} m/s less free velocity, meaning rockets launched from ${site.name} must burn more propellant to reach the same orbit. ` +
       `Geography imposes a permanent cost that no engine improvement can fully eliminate.`
@@ -194,7 +194,7 @@ export default function AfricaAdvantage() {
           <div className="aa-telem-block">
             <div className="data-label">Prop. saved vs SpaceX</div>
             <div className="data-value" style={{ color: 'var(--red)' }}>
-              {advSpaceX > 0 ? `~${propellantSaved(advSpaceX).toLocaleString()} kg` : '—'}
+              {advSpaceX > 0 ? `~${propellantSaved(advSpaceX).toLocaleString()} kg` : 'n/a'}
             </div>
           </div>
         </div>
@@ -286,7 +286,7 @@ export default function AfricaAdvantage() {
                     strokeWidth={1.5}
                   />
 
-                  {/* Cosine curve — area fill */}
+                  {/* Cosine curve, area fill */}
                   <Area
                     dataKey="vrot"
                     type="monotone"
@@ -299,7 +299,7 @@ export default function AfricaAdvantage() {
                     animationDuration={900}
                   />
 
-                  {/* Selected site dot — moves with slider/selector */}
+                  {/* Selected site dot, moves with slider/selector */}
                   <ReferenceDot
                     x={parseFloat(lat.toFixed(1))}
                     y={parseFloat(myVrot.toFixed(2))}

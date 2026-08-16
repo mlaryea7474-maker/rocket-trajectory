@@ -109,7 +109,7 @@ export default function Projectile() {
         </p>
       </motion.div>
 
-      {/* Fig 3 — Trajectory fan */}
+      {/* Fig 3, Trajectory fan */}
       <AnimatePresence>
         {true && (
           <motion.div
@@ -172,7 +172,7 @@ export default function Projectile() {
         )}
       </AnimatePresence>
 
-      {/* Fig 4 — Range vs angle */}
+      {/* Fig 4, Range vs angle */}
       <AnimatePresence>
         {true && (
           <motion.div

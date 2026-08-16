@@ -129,7 +129,7 @@ export default function Introduction() {
         </div>
       </motion.div>
 
-      {/* Contrast panel — appears only after briefing finishes */}
+      {/* Contrast panel, appears only after briefing finishes */}
       <AnimatePresence>
         {true && (
           <motion.div
@@ -145,7 +145,7 @@ export default function Introduction() {
             </div>
 
             <div className="contrast-body">
-              {/* Left — simple model */}
+              {/* Left, simple model */}
               <div className="contrast-side">
                 <div className="contrast-tag">SIMPLE PROJECTILE</div>
                 <ParabolaViz active={true} />
@@ -156,7 +156,7 @@ export default function Introduction() {
 
               <div className="contrast-divider" />
 
-              {/* Right — real rocket */}
+              {/* Right, real rocket */}
               <div className="contrast-side">
                 <div className="contrast-tag">SATURN V</div>
                 <RocketViz active={true} />

@@ -35,7 +35,7 @@ function renderBeat(idx: number) {
 }
 
 const CODE = `%% ============================================================
-%% MATLAB Implementation — Saturn V Trajectory Simulation
+%% MATLAB Implementation, Saturn V Trajectory Simulation
 
 %% Constants 
 g0 = 9.81;        % gravitational acceleration (m/s²)
@@ -85,7 +85,7 @@ figure(1)
 plot(Time, Height, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Altitude (km)')
-title('Saturn V Altitude vs Time — Replication of Abba (2018)')
+title('Saturn V Altitude vs Time, Replication of Abba (2018)')
 grid on
 
 %% Figure 2: Velocity vs Time
@@ -93,7 +93,7 @@ figure(2)
 plot(Time, Velocity, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Velocity (m/s)')
-title('Saturn V Velocity vs Time — Replication of Abba (2018)')
+title('Saturn V Velocity vs Time, Replication of Abba (2018)')
 grid on
 
 %%Figure 3: Acceleration vs Time 
@@ -101,7 +101,7 @@ figure(3)
 plot(Time, Acceleration, 'r', 'LineWidth', 2)
 xlabel('Time (s)')
 ylabel('Acceleration (m/s²)')
-title('Saturn V Acceleration vs Time — Replication of Abba (2018)')
+title('Saturn V Acceleration vs Time, Replication of Abba (2018)')
 grid on`
 
 function renderHighlighted(code: string) {
