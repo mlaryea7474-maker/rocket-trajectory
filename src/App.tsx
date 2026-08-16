@@ -16,13 +16,14 @@ import Results from './components/sections/Results'
 import CreativeDepiction from './components/sections/CreativeDepiction'
 import FurtherResearch from './components/sections/FurtherResearch'
 import References from './components/sections/References'
+import PromoVideo from './components/sections/PromoVideo'
 import './App.css'
 
 type Theme = 'light' | 'dark'
 
 export default function App() {
   const [loading, setLoading] = useState(true)
-  const [activeSection, setActiveSection] = useState<Section>('introduction')
+  const [activeSection, setActiveSection] = useState<Section>('promo-video')
   const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function App() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
                 >
+                  {activeSection === 'promo-video'      && <PromoVideo />}
                   {activeSection === 'introduction'     && <Introduction />}
                   {activeSection === 'ode-system'       && <OdeSystem />}
                   {activeSection === 'projectile'       && <Projectile />}

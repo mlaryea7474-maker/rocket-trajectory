@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass, BookMarked } from 'lucide-react'
+import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass, BookMarked, Video } from 'lucide-react'
 
 function CubeIcon() {
   return (
@@ -18,6 +18,7 @@ function CubeIcon() {
 import './Sidebar.css'
 
 export type Section =
+  | 'promo-video'
   | 'introduction' | 'ode-system' | 'projectile' | 'saturn-v'
   | 'model' | 'references'
   | 'modifications' | 'results'
@@ -25,6 +26,7 @@ export type Section =
   | 'africa-advantage' | 'refs'
 
 const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: string }[] = [
+  { id: 'promo-video',        label: 'Promo Video',        icon: <Video size={16} />,       sub: 'Introductory video' },
   { id: 'introduction',      label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
   { id: 'ode-system',        label: 'ODE System',         icon: <Sigma size={16} />,       sub: 'The Equations' },
   { id: 'projectile',        label: 'Projectile Model',   icon: <TrendingUp size={16} />,  sub: "Abba's Fig. 3" },
