@@ -76,6 +76,7 @@ export default function CreativeDepiction() {
 
           {/* RK4 trajectory, smooth and accurate */}
           <path
+            id="cd-rk4-anim-path"
             d="M 400 460 Q 380 320 340 180 T 260 40"
             fill="none"
             stroke="#dc143c"
@@ -86,6 +87,7 @@ export default function CreativeDepiction() {
 
           {/* Euler trajectory, dashed, drifts a bit off */}
           <path
+            id="cd-euler-anim-path"
             d="M 400 460 Q 386 320 356 180 T 300 40"
             fill="none"
             stroke="rgba(255,255,255,0.45)"
@@ -95,27 +97,47 @@ export default function CreativeDepiction() {
             className="cd-euler-path"
           />
 
+
           {/* Trajectory labels */}
           <text x="240" y="55" fill="#dc143c" fontSize="10" fontFamily="JetBrains Mono" letterSpacing="0.06em">RK4</text>
           <text x="310" y="55" fill="rgba(255,255,255,0.55)" fontSize="10" fontFamily="JetBrains Mono" letterSpacing="0.06em">EULER</text>
 
-          {/* Rocket at launchpad */}
-          <g transform="translate(390 425)" className="cd-rocket">
-            {/* body */}
-            <rect x="0" y="0" width="20" height="42" fill="url(#cdrocket)" stroke="#dc143c" strokeWidth="1.2" rx="2" />
-            {/* nose */}
-            <path d="M 0 0 L 10 -14 L 20 0 Z" fill="rgba(220,20,60,0.7)" stroke="#dc143c" strokeWidth="1.2" />
-            {/* fins */}
-            <path d="M 0 32 L -8 46 L 0 44 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="1" />
-            <path d="M 20 32 L 28 46 L 20 44 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="1" />
-            {/* window */}
-            <circle cx="10" cy="12" r="3" fill="rgba(6,6,10,0.9)" stroke="#dc143c" strokeWidth="0.8" />
-            {/* stage marker */}
-            <line x1="0" y1="24" x2="20" y2="24" stroke="#dc143c" strokeWidth="0.6" strokeDasharray="1 1.5" />
+          {/* Small launchpad base marker showing origin */}
+          <g transform="translate(400 460)">
+            <rect x="-14" y="0" width="28" height="4" fill="rgba(220,20,60,0.5)" stroke="#dc143c" strokeWidth="0.6" />
+            <line x1="-18" y1="4" x2="18" y2="4" stroke="#dc143c" strokeWidth="1" />
+            <text x="0" y="18" fill="rgba(220,20,60,0.7)" fontSize="8" fontFamily="JetBrains Mono" textAnchor="middle" letterSpacing="0.15em">LAUNCHPAD</text>
+          </g>
 
-            {/* Flame */}
-            <path d="M 4 42 Q 10 60 16 42 Q 10 78 4 42 Z" fill="rgba(220,20,60,0.6)" className="cd-flame" />
-            <path d="M 7 42 Q 10 54 13 42 Q 10 68 7 42 Z" fill="rgba(255,120,120,0.5)" className="cd-flame-inner" />
+          {/* The rocket, animated up the RK4 path — geometry centered on origin so animateMotion places it correctly */}
+          <g className="cd-flying-rocket">
+            {/* body */}
+            <rect x="-10" y="-21" width="20" height="42" fill="url(#cdrocket)" stroke="#dc143c" strokeWidth="1.2" rx="2" />
+            {/* nose */}
+            <path d="M -10 -21 L 0 -35 L 10 -21 Z" fill="rgba(220,20,60,0.7)" stroke="#dc143c" strokeWidth="1.2" />
+            {/* fins */}
+            <path d="M -10 11 L -18 25 L -10 23 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="1" />
+            <path d="M  10 11 L  18 25 L  10 23 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="1" />
+            {/* window */}
+            <circle cx="0" cy="-9" r="3" fill="rgba(6,6,10,0.9)" stroke="#dc143c" strokeWidth="0.8" />
+            {/* stage marker */}
+            <line x1="-10" y1="3" x2="10" y2="3" stroke="#dc143c" strokeWidth="0.6" strokeDasharray="1 1.5" />
+            {/* trailing flame */}
+            <path d="M -6 21 Q 0 39 6 21 Q 0 57 -6 21 Z" fill="rgba(220,20,60,0.6)">
+              <animate attributeName="opacity" values="0.55;1;0.55" dur="0.28s" repeatCount="indefinite" />
+              <animate attributeName="d"
+                values="M -6 21 Q 0 39 6 21 Q 0 57 -6 21 Z;
+                        M -6 21 Q 0 44 6 21 Q 0 65 -6 21 Z;
+                        M -6 21 Q 0 39 6 21 Q 0 57 -6 21 Z"
+                dur="0.28s" repeatCount="indefinite" />
+            </path>
+            <path d="M -3 21 Q 0 33 3 21 Q 0 47 -3 21 Z" fill="rgba(255,120,120,0.5)">
+              <animate attributeName="opacity" values="0.4;0.9;0.4" dur="0.2s" repeatCount="indefinite" />
+            </path>
+            {/* Motion along the RK4 path, loops forever */}
+            <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#cd-rk4-anim-path" />
+            </animateMotion>
           </g>
 
           {/* ODE system watermark on the right */}
@@ -127,27 +149,22 @@ export default function CreativeDepiction() {
             <text x="0" y="74" fill="rgba(220,20,60,0.75)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.15em">THE ODE SYSTEM</text>
           </g>
 
-          {/* Endpoints, where each method thinks the rocket ended up */}
-          {/* RK4 endpoint at (260, 40): small rocket + "RK4 says here" */}
-          <g transform="translate(250 22)" className="cd-endpoint-rk4">
-            {/* small rocket */}
-            <rect x="0" y="0" width="14" height="26" fill="url(#cdrocket)" stroke="#dc143c" strokeWidth="1" rx="1.5" />
-            <path d="M 0 0 L 7 -9 L 14 0 Z" fill="rgba(220,20,60,0.75)" stroke="#dc143c" strokeWidth="1" />
-            <path d="M 0 20 L -5 30 L 0 28 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="0.7" />
-            <path d="M 14 20 L 19 30 L 14 28 Z" fill="rgba(220,20,60,0.4)" stroke="#dc143c" strokeWidth="0.7" />
-            <circle cx="7" cy="8" r="2" fill="rgba(6,6,10,0.9)" stroke="#dc143c" strokeWidth="0.6" />
-            {/* endpoint dot on trajectory line */}
-            <circle cx="10" cy="18" r="4" fill="rgba(220,20,60,0.15)" />
-            <circle cx="10" cy="18" r="2" fill="#dc143c" />
+          {/* RK4 endpoint marker at (260, 40): pulsing red dot where the flying rocket arrives */}
+          <g transform="translate(260 40)" className="cd-endpoint-rk4">
+            <circle cx="0" cy="0" r="10" fill="rgba(220,20,60,0.15)">
+              <animate attributeName="r" values="8;14;8" dur="1.6s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.35;0.05;0.35" dur="1.6s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="0" cy="0" r="3" fill="#dc143c" />
           </g>
-          <text x="230" y="76" fill="#dc143c" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.08em" textAnchor="middle">RK4 says: here</text>
+          <text x="260" y="18" fill="#dc143c" fontSize="10" fontFamily="JetBrains Mono" letterSpacing="0.08em" textAnchor="middle">RK4 says: here</text>
 
-          {/* Euler endpoint at (300, 40): dashed circle + "Euler says here" */}
+          {/* Euler endpoint at (300, 40): dashed circle where Euler wrongly predicts */}
           <g transform="translate(300 40)" className="cd-endpoint-euler">
             <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(245,240,230,0.55)" strokeWidth="1" strokeDasharray="2 2" />
             <circle cx="0" cy="0" r="2" fill="rgba(245,240,230,0.6)" />
           </g>
-          <text x="305" y="76" fill="rgba(245,240,230,0.6)" fontSize="9" fontFamily="JetBrains Mono" letterSpacing="0.08em">Euler says: here</text>
+          <text x="308" y="18" fill="rgba(245,240,230,0.6)" fontSize="10" fontFamily="JetBrains Mono" letterSpacing="0.08em">Euler says: here</text>
 
           {/* Gap indicator between the two endpoints */}
           <line x1="266" y1="40" x2="292" y2="40" stroke="rgba(220,20,60,0.4)" strokeWidth="0.8" strokeDasharray="2 2" />
