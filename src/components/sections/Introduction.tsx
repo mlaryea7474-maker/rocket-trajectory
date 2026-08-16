@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTypewriter } from '../../hooks/useTypewriter'
 import './Introduction.css'
 
 /* ─── Mission briefing ─────────────────────────────────── */
@@ -15,10 +14,6 @@ const STORY = [
 const LEFT_TEXT  = "He modelled the projectile by ignoring drag and thrust entirely, which reduced the problem to a clean parabolic arc. When he plotted the trajectory at every angle, 45° sent the projectile further than any other, every single time."
 const RIGHT_TEXT = "The Saturn V changed every assumption he had made. With mass burning off at 13,000 kilograms every second and drag shifting with every metre of the climb, every variable in the problem was constantly changing. There was no neat formula that could predict where it would end up."
 const CONCLUSION = "What Abba showed is worth understanding. Not every problem has a neat formula for an answer. The simple projectile does: one equation, 45°, and you are done. The real rocket does not. Too many things are changing at the same time for any single formula to keep up. When that happens, you do not give up on the problem. You break time into tiny pieces, solve it one small step at a time, and let the answer build itself. That is what this paper is about."
-
-function useStream(text: string, _trigger: boolean) {
-  return useTypewriter(text)
-}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -87,10 +82,6 @@ function RocketViz({ active }: { active: boolean }) {
 export default function Introduction() {
   const streamEndRef = useRef<HTMLDivElement>(null)
 
-  const left       = useStream(LEFT_TEXT,  true)
-  const right      = useStream(RIGHT_TEXT, true)
-  const conclusion = useStream(CONCLUSION, true)
-
   const displayedParas = STORY.map(text => text)
 
   return (
@@ -151,7 +142,7 @@ export default function Introduction() {
                 <div className="contrast-tag">SIMPLE PROJECTILE</div>
                 <ParabolaViz active={true} />
                 <p className="contrast-text">
-                  {left.display}
+                  {LEFT_TEXT}
                 </p>
               </div>
 
@@ -162,7 +153,7 @@ export default function Introduction() {
                 <div className="contrast-tag">SATURN V</div>
                 <RocketViz active={true} />
                 <p className="contrast-text">
-                  {right.display}
+                  {RIGHT_TEXT}
                 </p>
               </div>
             </div>
@@ -183,7 +174,7 @@ export default function Introduction() {
               <span className="story-label">[ SIGNIFICANCE ]</span>
             </div>
             <p className="intro-conclusion-text">
-              {conclusion.display}
+              {CONCLUSION}
             </p>
           </motion.div>
         )}

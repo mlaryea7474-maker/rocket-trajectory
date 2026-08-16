@@ -1,0 +1,72 @@
+.refs-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.refs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ref-item {
+  display: flex;
+  gap: 1.25rem;
+  background: #060608;
+  border: 1.5px solid rgba(220, 20, 60, 0.25);
+  border-left: 3px solid rgba(220, 20, 60, 0.7);
+  padding: 1rem 1.25rem;
+}
+
+.ref-num {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: rgba(220, 20, 60, 0.55);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  padding-top: 0.1rem;
+  min-width: 28px;
+}
+
+.ref-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.ref-citation {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.ref-authors {
+  color: rgba(245, 240, 230, 0.88);
+}
+
+.ref-year {
+  color: rgba(220, 20, 60, 0.7);
+}
+
+.ref-title {
+  color: rgba(245, 240, 230, 0.88);
+  font-style: italic;
+}
+
+.ref-source {
+  color: rgba(245, 240, 230, 0.45);
+}
+
+.ref-note {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: rgba(245, 240, 230, 0.38);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  border-left: 1px solid rgba(220, 20, 60, 0.2);
+  padding-left: 0.75rem;
+}

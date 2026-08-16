@@ -15,6 +15,7 @@ import Modifications from './components/sections/Modifications'
 import Results from './components/sections/Results'
 import CreativeDepiction from './components/sections/CreativeDepiction'
 import FurtherResearch from './components/sections/FurtherResearch'
+import References from './components/sections/References'
 import './App.css'
 
 type Theme = 'light' | 'dark'
@@ -67,6 +68,7 @@ export default function App() {
                   {activeSection === 'creative'         && <CreativeDepiction />}
                   {activeSection === 'further-research' && <FurtherResearch />}
                   {activeSection === 'africa-advantage' && <AfricaAdvantage />}
+                  {activeSection === 'refs'             && <References />}
                 </motion.div>
               </AnimatePresence>
             </main>

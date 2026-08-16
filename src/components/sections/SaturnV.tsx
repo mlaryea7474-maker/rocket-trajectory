@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTypewriter } from '../../hooks/useTypewriter'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer
@@ -47,9 +46,6 @@ const BEAT = "He then modeled the real rocket. The Saturn V: 2.9 million kilogra
 
 const CONCLUSION_TEXT = "He got three curves. Unlike the projectile, nothing here was predictable in advance. The mass was shrinking, the drag was shifting, every step changed the next. This is what numerical methods produce when the math has no clean answer. Next: how he built it."
 
-function useStream(text: string, _trigger: boolean) {
-  return useTypewriter(text)
-}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
@@ -73,7 +69,6 @@ function ChartTip({ active, payload, label, unit }: any) {
 export default function SaturnV() {
   const data = useMemo(buildSaturnData, [])
 
-  const conclusion = useStream(CONCLUSION_TEXT, true)
 
   const axisProps = {
     stroke: 'rgba(255,255,255,0.15)',
@@ -209,7 +204,7 @@ export default function SaturnV() {
           >
             <span className="section-tag">OBSERVATION</span>
             <p className="beat-line">
-              {conclusion.display}
+              {CONCLUSION_TEXT}
             </p>
           </motion.div>
         )}

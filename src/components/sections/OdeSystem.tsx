@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTypewriter } from '../../hooks/useTypewriter'
 import './OdeSystem.css'
 
 const BEAT = "Before he could solve anything, Abba had to describe exactly what was happening to the rocket at every moment in flight. He wrote down three coupled differential equations: one tracking altitude, one tracking velocity, and one tracking mass. Everything that follows in this paper flows from these three lines."
@@ -37,10 +36,6 @@ const VARIABLES = [
   { sym: 'ṁ',       def: 'propellant mass flow rate',   unit: '13,000 kg/s' },
 ]
 
-function useStream(text: string, _trigger: boolean) {
-  return useTypewriter(text)
-}
-
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -48,8 +43,6 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function OdeSystem() {
-  const bridge = useStream(BRIDGE_TEXT, true)
-
   return (
     <div className="ode-page">
 
@@ -154,7 +147,7 @@ export default function OdeSystem() {
           >
             <span className="section-tag">TWO PATHS</span>
             <p className="ode-bridge-text" style={{ marginTop: '0.75rem' }}>
-              {bridge.display}
+              {BRIDGE_TEXT}
             </p>
           </motion.div>
         )}

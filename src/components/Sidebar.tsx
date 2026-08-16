@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass } from 'lucide-react'
+import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass, BookMarked } from 'lucide-react'
 
 function CubeIcon() {
   return (
@@ -22,7 +22,7 @@ export type Section =
   | 'model' | 'references'
   | 'modifications' | 'results'
   | 'creative' | 'further-research'
-  | 'africa-advantage'
+  | 'africa-advantage' | 'refs'
 
 const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: string }[] = [
   { id: 'introduction',      label: 'Introduction',       icon: <BookOpen size={16} />,    sub: 'Problem Overview' },
@@ -35,6 +35,7 @@ const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: strin
   { id: 'results',           label: 'Our Results',        icon: <LineChart size={16} />,   sub: 'Euler vs RK4' },
   { id: 'creative',          label: 'Creative Depiction', icon: <Palette size={16} />,     sub: 'Visual project story' },
   { id: 'further-research',  label: 'Further Research',   icon: <Compass size={16} />,     sub: 'Next questions' },
+  { id: 'refs',              label: 'References',          icon: <BookMarked size={16} />,  sub: 'Sources cited' },
 ]
 
 interface Props {

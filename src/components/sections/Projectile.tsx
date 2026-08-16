@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTypewriter } from '../../hooks/useTypewriter'
 import {
   ComposedChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, ReferenceLine
@@ -73,10 +72,6 @@ const BEAT = "He started simple. He fired the projectile at 20 m/s and plotted t
 
 const CONCLUSION_TEXT = "He found 45° every time. Clean geometry, one equation, no computer needed. He had solved the simple model. Now for the actual rocket."
 
-function useStream(text: string, _trigger: boolean) {
-  return useTypewriter(text)
-}
-
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -86,8 +81,6 @@ const fadeUp = (delay = 0) => ({
 export default function Projectile() {
   const trajectoryData = useMemo(buildTrajectoryData, [])
   const rangeData = useMemo(buildRangeData, [])
-
-  const conclusion = useStream(CONCLUSION_TEXT, true)
 
   return (
     <div className="proj-page">
@@ -246,7 +239,7 @@ export default function Projectile() {
           >
             <span className="section-tag">RESULT</span>
             <p className="beat-line">
-              {conclusion.display}
+              {CONCLUSION_TEXT}
             </p>
           </motion.div>
         )}

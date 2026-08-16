@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useTypewriter } from '../../hooks/useTypewriter'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend, ReferenceLine,
@@ -87,7 +86,6 @@ const fadeUp = (delay = 0) => ({
 const BEAT = "We ran Abba's method and our method against each other. Same rocket, same three equations, same 150 seconds. The only difference is how we step through time and whether gravity changes with height. The charts below run both simulations right now in your browser, so you can drag the step size and watch what happens."
 
 export default function Results() {
-  const beat = useTypewriter(BEAT)
   const [dt, setDt]                   = useState(0.5)
   const [varyGravity, setVaryGravity] = useState(true)
 
@@ -133,7 +131,7 @@ export default function Results() {
 
       {/* Narrative */}
       <motion.div className="res-beat" {...fadeUp(0.05)}>
-        <p className="beat-line">{beat.display}</p>
+        <p className="beat-line">{BEAT}</p>
       </motion.div>
 
       {/* Controls */}
