@@ -27,7 +27,7 @@ export default function PromoVideo() {
         </div>
         <video
           className="pv-video"
-          src="/promo.mp4"
+          src={`${import.meta.env.BASE_URL}promo.mp4`}
           controls
           playsInline
           preload="metadata"
