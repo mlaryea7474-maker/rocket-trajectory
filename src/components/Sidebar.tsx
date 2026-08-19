@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass, BookMarked, Video } from 'lucide-react'
+import { BookOpen, Sigma, TrendingUp, Rocket, Wrench, Terminal, GitBranch, LineChart, Palette, Compass, BookMarked, Video, Globe } from 'lucide-react'
 
 function CubeIcon() {
   return (
@@ -37,6 +37,7 @@ const NAV_ITEMS: { id: Section; label: string; icon: React.ReactNode; sub: strin
   { id: 'results',           label: 'Our Results',        icon: <LineChart size={16} />,   sub: 'Euler vs RK4' },
   { id: 'creative',          label: 'Creative Depiction', icon: <Palette size={16} />,     sub: 'Visual project story' },
   { id: 'further-research',  label: 'Further Research',   icon: <Compass size={16} />,     sub: 'Next questions' },
+  { id: 'africa-advantage',  label: 'Africa Advantage',   icon: <Globe size={16} />,       sub: 'Equatorial boost' },
   { id: 'refs',              label: 'References',          icon: <BookMarked size={16} />,  sub: 'Sources cited' },
 ]
 
