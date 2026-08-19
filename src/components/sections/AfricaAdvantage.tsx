@@ -35,12 +35,10 @@ function propellantSaved(deltaV: number) {
   return Math.round(M0 * (1 - Math.exp(-deltaV / (ISP * G0))))
 }
 
-// Smooth cosine curve data, 0.5° steps so 28.5° (Cape Canaveral) is exact
 const CURVE_DATA = Array.from({ length: 181 }, (_, i) => ({
   lat: i * 0.5,
   vrot: parseFloat(vrot(i * 0.5).toFixed(2)),
 }))
-
 
 const BEAT = "The formula is simple. The closer to the equator, the more of Earth's rotation a rocket inherits for free. Every metre per second here is a metre per second that does not need to come from propellant."
 
@@ -119,9 +117,6 @@ export default function AfricaAdvantage() {
   const selectedSite   = SITES.find(s => s.name === selected) || SITES[5]
   const explanationText = siteExplanation(selectedSite, advSpaceX, myVrot, propSaved)
   const siteExpl        = useSiteStream(explanationText, selected)
-
-  // Selected site scatter point
-
 
   return (
     <div className="aa-page">
@@ -263,7 +258,6 @@ export default function AfricaAdvantage() {
                     <Label value="m/s" angle={-90} position="insideLeft" offset={12}
                       style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fill: 'rgba(255,255,255,0.25)' }} />
                   </YAxis>
-
 
                   <Tooltip
                     content={(props: any) => <ChartTooltip {...props} />}
